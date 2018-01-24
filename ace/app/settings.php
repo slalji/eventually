@@ -59,13 +59,11 @@
                                                 <td><input type="hidden"  name="row-id" id="row-id" value=""/></td>
                                             </tr>
                                         <tr>
-                                            <td><label>Setting</label></td>
-                                            <td><select id="setting" name="setting" class="form-control" >
-
-                                                </select></td>
+                                            <td nowrap><label>Setting</label></td>
+                                            <td> <input type="text" name="setting" id="setting" value="" readonly/></td>
                                         </tr>
                                             <tr>
-                                                <td><label>Sub Group</label></td>
+                                                <td nowrap><label>Sub Group</label></td>
                                                 <td> <input type="text" name="sgroup" id="sgroup" value="GENERAL" readonly/></td>
                                             </tr>
 

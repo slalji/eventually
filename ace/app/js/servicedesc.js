@@ -69,12 +69,14 @@ jQuery(function($) {
             success: function(obj) {
 
                 $.each(obj, function (index, element) {
+                    document.getElementById('service').value = element.service;
                     document.getElementById('service_en').innerHTML = element.service_en;
                     document.getElementById('service_sw').innerHTML = element.service_sw;
-                    var country = document.getElementById("service");
+                   /* var country = document.getElementById("service");
                     console.log(''+element.id);
                     var option = $('#service').children('option[value="'+ element.service +'"]');
                     option.attr('selected', 'selected');
+                    */
 
                 });
 

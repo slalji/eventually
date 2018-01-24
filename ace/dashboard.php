@@ -92,6 +92,11 @@
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
 									Weekly Statistics
+									<?php
+									include_once "class/dashboard.php";
+									$dashboard = new Dashboard();
+									echo $d->totalLoanRepayments();
+									?>
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -125,8 +130,9 @@
 
 											<div class="infobox-data">
 												<span class="infobox-data-number">
-													<?php include "class/dashboard.php";
-													$d = new dashboard(); echo "here".$d->totalGroups();?>
+													<?php //include "class/dashboard.php";
+													//$d = new dashboard(); echo "here".$d->totalGroups();
+													?>
 												</span>
 												<div class="infobox-content">Total groups</div>
 											</div>

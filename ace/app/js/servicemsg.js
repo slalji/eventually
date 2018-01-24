@@ -24,7 +24,7 @@ $(document).ready(function() {
             url: 'ajax/setService',
             data: $( "#theForm" ).serialize(),
             success: function( response ) {
-                console.log( response );
+                //console.log( response );
                 document.getElementById('message').innerHTML = '<div class="alert alert-success"> <strong>Saved !</strong> </div>';
                 window.setTimeout(function () {
                     $("#message").hide();
@@ -66,15 +66,17 @@ jQuery(function($) {
             success: function(obj) {
 
                 $.each(obj, function (index, element) {
+                    document.getElementById('service').value = element.service;
                     document.getElementById('description').innerHTML = element.description;
                     document.getElementById('errorcode').value= element.errorcode;
                     document.getElementById('recipient').value = element.recipient;
                     document.getElementById('en_msg').innerHTML = element.en_msg;
                     document.getElementById('sw_msg').innerHTML = element.sw_msg;
-                    var country = document.getElementById("service");
-                    console.log(element.errorcode);
+                    /*var country = document.getElementById("service");
+                    //console.log(element.errorcode);
                     var option = $('#service').children('option[value="'+ element.service +'"]');
                     option.attr('selected', 'selected');
+                    */
 
                 });
 

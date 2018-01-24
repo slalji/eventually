@@ -11,7 +11,7 @@ if(isset($_POST['row-id'])){
 	$sw_desc =($_POST['service_sw']);
 
 
-	$query   = "update service_desc set service='$service', service_en='$en_desc',service_sw='$sw_desc' where id = '" .$id."'";
+	$query   = "update service_desc set  service_en='$en_desc',service_sw='$sw_desc' where id = '" .$id."'";
 	$result = $mysqli->query($query); //or die($mysqli->error.__LINE__);
 
 	if ($result)

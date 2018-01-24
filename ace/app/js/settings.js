@@ -34,7 +34,7 @@ $(document).ready(function() {
                 }, 2000);
                 window.location.reload();
             },
-            success: function( response ) {
+            error: function( response ) {
                 alert('error '+JSON.stringify(response));//.responseText));
             }
 
@@ -69,12 +69,14 @@ jQuery(function($) {
             success: function(obj) {
 
                 $.each(obj, function (index, element) {
+                    document.getElementById('setting').value = element.setting;
                     document.getElementById('sgroup').value = element.sgroup;
                     document.getElementById('setting_value').value = element.value;
-                    var country = document.getElementById("setting");
+                    /*var country = document.getElementById("setting");
                     console.log(''+element.id);
                     var option = $('#setting').children('option[value="'+ element.setting +'"]');
                     option.attr('selected', 'selected');
+                    */
 
                 });
 

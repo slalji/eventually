@@ -60,31 +60,29 @@
                                                 <td></td>
                                                 <td><input type="hidden"  name="row-id" id="row-id" value=""/></td>
                                             </tr>
-                                        <tr>
-                                            <td><label>Service</label></td>
-                                            <td><select id="service" name="service" class="form-control" >
-
-                                                </select></td>
-                                        </tr>
+                                            <tr>
+                                                <td nowrap><label>Service</label></td>
+                                                <td> <input type="text" name="service" id="service" value="" readonly/></td>
+                                            </tr
                                             <tr>
                                                 <td><label>Description</label></td>
                                                 <td> <textarea name="description" id="description" value="" placeholder="description" rows="5" cols="20"></textarea></td>
                                             </tr>
                                             <tr>
-                                                <td><label>Error Code</label></td>
-                                                <td> <input type="text" name="errorcode" id="errorcode" value="" placeholder="errorcode"/></td>
-                                            </tr>
+                                                <td nowrap><label>Error Code</label></td>
+                                                <td> <input type="text" name="errorcode" id="errorcode" value="" readonly/></td>
+                                            </tr
                                             <tr>
                                                 <td><label>Recipient</label></td>
                                                 <td><input type="text" name="recipient" id="recipient" value="" placeholder="recipient"/></td>
                                             </tr>
                                             <tr>
                                                 <td><label>English</label></td>
-                                                <td><textarea name="en_msg" id="en_msg" value="" placeholder="en_msg" rows="5" cols="20"></textarea></td>
+                                                <td><textarea name="en_msg" id="en_msg" value="" placeholder="en_msg" rows="5" cols="30"></textarea></td>
                                             </tr>
                                             <tr>
                                                 <td><label>Swahili</label></td>
-                                                <td> <textarea name="sw_msg" id="sw_msg" value="" placeholder="sw_msg" rows="5" cols="20"></textarea></td>
+                                                <td> <textarea name="sw_msg" id="sw_msg" value="" placeholder="sw_msg" rows="5" cols="30"></textarea></td>
                                             </tr>
                                         </table>
                                     </div>

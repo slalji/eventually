@@ -58,12 +58,10 @@
                                                 <td></td>
                                                 <td><input type="hidden"  name="row-id" id="row-id" value=""/></td>
                                             </tr>
-                                        <tr>
-                                            <td><label>Service</label></td>
-                                            <td><select id="service" name="service" class="form-control" >
-
-                                                </select></td>
-                                        </tr>
+                                            <tr>
+                                                <td nowrap><label>Service</label></td>
+                                                <td> <input type="text" name="service" id="service" value="" readonly/></td>
+                                            </tr>
                                             <tr>
                                                 <td><label>English</label></td>
                                                 <td> <textarea name="service_en" id="service_en" value="" placeholder="English" rows="5" cols="20"></textarea></td>
