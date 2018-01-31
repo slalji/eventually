@@ -25,10 +25,13 @@
 	// Disable animations/transitions until everything's loaded.
 		$body.classList.add('is-loading');
 
+
 		window.addEventListener('load', function() {
 			window.setTimeout(function() {
 				$body.classList.remove('is-loading');
 			}, 100);
+			document.getElementsByTagName('input').item(0).focus();
+
 		});
 
 	// Slideshow Background.
@@ -101,6 +104,7 @@
 						}, settings.delay / 2);
 
 				}, settings.delay);
+
 
 		})();
 

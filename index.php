@@ -33,6 +33,7 @@
 				<input type="password" name="password" id="password" placeholder="Password" />
 				<input type="submit" value="Login" />
 			</form>
+		<p><a href="forgotten.php">Forgotten Password</a></p>
 
 		<!-- Footer -->
 			<footer id="footer">

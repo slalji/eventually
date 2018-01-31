@@ -1,12 +1,14 @@
 <?php
 session_start();
 //var_dump($_SESSION);
-if (isset($_SESSION["authenticated"]) && $_SESSION["authenticated"] == 'true')
+if (isset($_SESSION["authenticated"]) && $_SESSION["authenticated"] == 'true' && $_SESSION['firsttime']=='true')
+	$page = 'newuser';
+else if (isset($_SESSION["authenticated"]) && $_SESSION["authenticated"] == 'true' && $_SESSION['firsttime']='false')
 	$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 else
-	header(location('../index.php'));
+	header(('location:../index.php'));
 $page_title[]= array();
-$page_title = ['dashboard'=>'Dashboard', 'transactions' => 'Transactions', 'servicemsg' => 'Service Messages', 'accountstatement' => 'Account Statement', 'loanstatement' => 'Loan Statement', 'cashout' => 'Cash Out', 'shareout' => 'Share Out', 'savingsgroup' => 'Savings Group', 'servicedesc' =>'Service Description', 'settings' => 'Settings', 'logs' =>'Log Report']
+$page_title = ['newuser'=>'First Time Login','profile' => 'User Profile & Settings','dashboard'=>'Dashboard', 'transactions' => 'Transactions', 'servicemsg' => 'Service Messages', 'accountstatement' => 'Account Statement', 'loanstatement' => 'Loan Statement', 'cashout' => 'Cash Out', 'shareout' => 'Share Out', 'savingsgroup' => 'Savings Group', 'servicedesc' =>'Service Description', 'settings' => 'Settings', 'logs' =>'Log Report']
 
 ?>
 <!DOCTYPE html>

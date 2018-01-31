@@ -1,7 +1,9 @@
 <?php
-
 session_start();
-$_SESSION["session"]='false';
+$_SESSION = array();
+//$_SESSION='false';
+
+
 
 /*
  * If register, validate input, create and save new user to database and allow login
@@ -12,33 +14,46 @@ $_SESSION["session"]='false';
 	include("config.php");
         include("class/user.php");
   // 
-    $ch='';
 
-    if( isset( $_REQUEST['email'] )  ) {
+    if( isset( $_POST['email'] )  ) {
 
 	$usr = new Users;
+	$usr->storeFormValues( $_POST );
 
-	$usr->storeFormValues( $_REQUEST );
-        //$ch = $usr->userLogin();
-$fullname = $usr->userLogin();
-        if (!$fullname){
-            $_SESSION["authenticated"]= 'false';
-            //var_dump($_REQUEST);
-            header('location:index.php?err=1');
+        $data = $usr->userLogin();
+        //var_dump($data);
+        $token = uniqid();
 
+        if (!isset($data['firsttime']))
+           header('location:index.php?pass'.$_POST['password']);
+        else if ($data['firsttime'] == 'true') {
+            var_dump('First Time! ' . $data);
+            $_SESSION["authenticated"] = 'true';
+            $_SESSION["fullname"] = $data['fullname'];
+            $_SESSION["joined"] = $data['joined'];
+            $_SESSION["email"] = $data['email'];
+            $_SESSION["firsttime"] = $data['firsttime'];
+            $_SESSION["interval"] = $data['expiry'];
+            $_SESSION["token"] = $token;
+            //session_destroy();
+            header('location:new.php');
         }
-        else{
-var_dump($_SESSION);
-            $_SESSION["authenticated"]= 'true';
-            $sess_cookie =session_id();
-            $_SESSION["id"]= $sess_cookie;  //session_id();
-            $_SESSION["fullname"] = $fullname;
-           // echo $fullname;
-            echo '<script>$.setcookie("sessionId",$sess_cookie);</script>';
-            //echo '<script>$.cookie("sessionId", '.$sess_cookie.')</script>';
-            echo '<script>console.log("login-exe: "+$.cookie("sessionId"));</script>';
-            header('location:./ace');
+        else if ($data['firsttime'] == 'false'){
+
+            $_SESSION["authenticated"] = 'true';
+            $_SESSION["fullname"] = $data['fullname'];
+            $_SESSION['token']=$token;
+            $_SESSION['firsttime']='false';
+            $_SESSION["joined"] = $data['joined'];
+            $_SESSION["interval"] = $data['expiry'];
+            $usr->updateToken($token);
+
+            header('location:ace/');
         }
+
+
+
+
 
 
     }

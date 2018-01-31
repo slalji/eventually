@@ -24,20 +24,46 @@
             <ul class="nav ace-nav">
 
 <!-- user info -->
+
                 <li class="black dropdown-modal">
-                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle"  data-hover="dropdown">
                         <span><i class="fa fa-user-secret fa-5x"></i></span>
 								<span class="user-info">
 									<small>Welcome,</small>
                                     <?php
                                     isset($_SESSION['fullname']) ? $user= ucfirst($_SESSION['fullname']) : $user= 'Please Login';
-                                    echo $user;
+                                    echo '<span class="fullname">'.$user . '</span> <i class="ace-icon fa fa-caret-down"></i>';
                                   ?>
 
 								</span>
 
-                        <i class="ace-icon fa fa-caret-down"></i>
+                        <!--<i class="ace-icon fa fa-arr"></i>-->
                     </a>
+                    <ul class="dropdown-menu">
+                    <!--<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">-->
+                        <!--<li>
+                            <a href="#">
+                                <i class="ace-icon fa fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>-->
+
+                        <li>
+                            <a href="<?php echo $_SERVER['PHP_SELF']?>?page=profile"">
+                                <i class="ace-icon fa fa-user"></i>
+                                Profile
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="../logout.php">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

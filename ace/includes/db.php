@@ -9,5 +9,7 @@ DB_USER = 'root';
 DB_PASS = 'roots';
 DB_NAME = 'selcom_bridge';
 */
+$dsn = 'mysql:dbname='.DB_NAME.';host='.DB_HOST.'';
+define("DB_DSN", $dsn);
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 ?>

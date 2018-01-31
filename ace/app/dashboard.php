@@ -1,3 +1,6 @@
+<?php include "class/C_summary.php";
+$d = new Summary();
+?>
 <!-- first panel-->
 <div class="col-lg-6 col-md-8">
     <div class="panel panel-default">
@@ -14,8 +17,7 @@
                                         <i class="fa fa-users fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php include "class/dashboard.php";
-                                            $d = new dashboard(); echo "".$d->totalGroups();?></div>
+                                        <div class="huge"><?php   echo $d->totalGroups();?></div>
                                         <div>Total Groups</div>
                                     </div>
                                 </div>
@@ -31,7 +33,7 @@
                                         <i class="fa fa-calendar-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">158</div>
+                                        <div class="huge"> </div>
                                         <div>~ Age of group in <b class="badge">days</b></div>
 
                                     </div>
@@ -50,8 +52,8 @@
                                         <i class="fa fa-user-secret fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php echo "".$d->totalMembers();?></div>
-                                        <div>Total members</div>
+                                        <div class="huge"><?php echo  $d->totalMembers();?></div>
+                                        <div>Total Members</div>
                                     </div>
                                 </div>
                             </div>
@@ -70,8 +72,8 @@
                                         <i class="fa fa-money fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">5154</div>
-                                        <div>Pay-ins<span class="badge">TZS 83,696,621</span></div>
+                                        <div class="huge"> </div>
+                                        <div>Pay-ins<span class="badge">TZS </span></div>
                                     </div>
                                 </div>
                             </div>
@@ -88,8 +90,8 @@
                                         <i class="fa fa-money fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php echo $d->totalLoanRepayments();?></div>
-                                        <div>Loan repayments<span class="badge">TZS <?php  $arr= $d->loanRepayment(); echo number_format($arr['p']-$arr['c']) ;?></span></div>
+                                        <div class="huge"><?php //echo $d->totalLoanRepayments();?></div>
+                                        <div>Loan repayments<span class="badge">TZS <?php  ?></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +110,7 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge"></div>
-                                        <div>Total funds available <span class="badge">TZS 5,033,123</span></div>
+                                        <div>Total funds available <span class="badge">TZS <?php echo $d->funds_available();?></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +144,7 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge"></div>
-                                        <div>Total loan balance outstanding	<span class="badge>">TZS 13,894,634</span> </div>
+                                        <div>Total loan balance outstanding	<span class="badge>">TZS </span> </div>
 
                                     </div>
                                 </div>
@@ -161,7 +163,7 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge"></div>
-                                        <div>Average loan amount at issuance <span class="badge">TZS 124,068.97</span> </div>
+                                        <div>Average loan amount at issuance <span class="badge">TZS </span> </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +180,7 @@
                                         <i class="fa fa-paper-plane-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">454</div>
+                                        <div class="huge"> </div>
                                         <div>Total number of loans disbursed</div>
                                     </div>
                                 </div>
@@ -198,7 +200,7 @@
                                         <i class="fa fa-times-circle-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">174</div>
+                                        <div class="huge"> </div>
                                         <div>Number of loans outstanding</div>
                                     </div>
                                 </div>
@@ -216,7 +218,7 @@
                                         <i class="fa fa-calendar-plus-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php echo $d->noPastDueLoans();?></div>
+                                        <div class="huge"><?php echo $d->numLoanspastdue();?></div>
                                         <div>Number of loans past due</div>
                                     </div>
                                 </div>
@@ -234,7 +236,7 @@
                                         <i class="fa fa-percent fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">TZS
-                                        <div class="huge">3.41</div>
+                                        <div class="huge"></div>
                                         <div>Average group interest rate <span class="badge">per 2 weeks</span></div>
                                     </div>
                                 </div>
