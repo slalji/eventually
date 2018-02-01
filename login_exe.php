@@ -20,6 +20,7 @@ $_SESSION = array();
 	$usr = new Users;
 	$usr->storeFormValues( $_POST );
 
+
         $data = $usr->userLogin();
         //var_dump($data);
         $token = uniqid();
@@ -27,7 +28,7 @@ $_SESSION = array();
         if (!isset($data['firsttime']))
            header('location:index.php?pass'.$_POST['password']);
         else if ($data['firsttime'] == 'true') {
-            var_dump('First Time! ' . $data);
+           // var_dump('First Time! ' . $data);
             $_SESSION["authenticated"] = 'true';
             $_SESSION["fullname"] = $data['fullname'];
             $_SESSION["joined"] = $data['joined'];
@@ -46,9 +47,12 @@ $_SESSION = array();
             $_SESSION['firsttime']='false';
             $_SESSION["joined"] = $data['joined'];
             $_SESSION["interval"] = $data['expiry'];
-            $usr->updateToken($token);
-
-            header('location:ace/');
+            $usr->updateToken($token); //lastlogin changed to current
+           //die($usr->updateCurrentlogin($token));
+            if (date('Y-m-d') >= $usr->getExpiryDate($token))
+                header('location:expired.php');
+            else
+                header('location:ace/');
         }
 
 

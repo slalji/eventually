@@ -76,7 +76,8 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 <!-- Header -->
 <header id="header">
 	<h1><i class="fa fa-tree"></i>Boresha Maisha Admin</h1>
-	Forgotten Password. <span style="color:#1cb495"><?php echo $fullname?> </span>
+	<span class="errors">Expired Password !</span>  <br><span style="color:#1cb495"><?php echo $fullname?> </span> Your password has expired. Do not change it to any of the
+	<b>last 3 passwords</b> used. Please choose a new strong password.
 
 </header>
 
@@ -163,7 +164,6 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 		});
 		$(".new").click(function() {
 			$(".tooltiptext").css("visibility", "visible");
-
 		});
 		$(".new").focusout(function() {
 			$(".tooltiptext").css("visibility", "hidden");
@@ -176,14 +176,15 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 				//$('body').addClass('loading');
 				$.ajax({
 					type: "POST",
-					url: "ajax/forgottenPassword.php", //Relative or absolute path to response.php file
+					url: "ajax/expiredPassword.php", //Relative or absolute path to response.php file
 					data: {'email':email, password:pass, conpassword:conpass},
 					success: function (msg) {
+						//alert(msg);
 
 
 						if (msg == 'db updated') {
 							//$('.message').css('display','inline');
-							$('#errors').html('<br><span >Password changed</span>');
+							$('#errors').html('<br><span xclass="badge badge-success">Password changed</span>');
 
 						}
 						else {
@@ -191,11 +192,12 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 							var arr = JSON.parse(msg);
 							//alert(arr);
 
-							$('#errors').html('<br><span >' + arr + '</span>');
+							$('#errors').html('<br><span xclass="badge badge-danger">' + arr + '</span>');
 
 						}
 					},
 					error: function (msg) {
+						//alert(msg);
 						var errors=null;
 						var arr = JSON.parse(msg);
 						//alert(arr);

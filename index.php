@@ -33,7 +33,13 @@
 				<input type="password" name="password" id="password" placeholder="Password" />
 				<input type="submit" value="Login" />
 			</form>
-		<p><a href="forgotten.php">Forgotten Password</a></p>
+		<?php
+		if (!isset($_GET['firsttime'])){
+			echo '<a href="forgotten.php" >forgotten password <i class="fa fa-arrow-circle-o-right"></i></a> ';
+		}
+		?>
+
+
 
 		<!-- Footer -->
 			<footer id="footer">

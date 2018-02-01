@@ -6,13 +6,14 @@
 include("../config.php");
 include("../class/user.php");
 $usr = new Users();
-$expiry_date = $usr->getExpiryDate($_SESSION['token']);
-$email = $usr->getEmail($_SESSION['token']);
-$fullname = $usr->getFullname($_SESSION['token']);
-$lastlogin = $usr->getLastlogin($_SESSION['token']);
-//$fullname = $_SESSION['fullname'];
-
-	$_SESSION['fullname']=$fullname;
+$user_info = $usr->getUserInfo($_SESSION['token']);
+$expiry_date = $user_info['expiry_date'];//$usr->getExpiryDate($_SESSION['token']);
+$email = $user_info['email'];//$usr->getEmail($_SESSION['token']);
+$fullname = $user_info['fullname'];//$usr->getFullname($_SESSION['token']);
+$lastlogin = $user_info['lastlogin'];//$usr->getLastlogin($_SESSION['token']);
+$joined = $user_info['joined'];
+$interval = $user_info['expiry'];
+$_SESSION['fullname']=$fullname;
 
 ?>
 
@@ -29,9 +30,11 @@ $lastlogin = $usr->getLastlogin($_SESSION['token']);
 							<div class="profile-user-info profile-user-info-striped">
 								<div class="alert alert-info message">Personal Profile
 									<h1 ><i class="fa fa-user"></i> <span class="fullname"><?php echo $fullname ?></span></h1>
+									<div>DEBUG:
+										token <?php echo $_SESSION['token'];?></div>
 									 <form id="name-form"><?php
 									echo '<input type="text" name=fullname id=fullname value="'. $fullname. '">
-										 <input type="hidden" id="email2" name="email2" value="'. $email.'">';?>
+										 <input type="text" readonly id="email2" name="email2" value="'. $email.'">';?>
 										<input type="submit" value="Update" name="update" id="update" class="btn btn-info"></i>
 									</form>
 								</div>
@@ -48,7 +51,7 @@ $lastlogin = $usr->getLastlogin($_SESSION['token']);
 									<div class="profile-info-name"><i class="fa fa-calendar green"></i> Joined </div>
 
 									<div class="profile-info-value">
-										<span class="editable" id="signup"><?php echo $_SESSION['joined']?></span>
+										<span class="editable" id="signup"><?php echo $joined?></span>
 									</div>
 								</div>
 								<div class="profile-info-row">
@@ -62,7 +65,7 @@ $lastlogin = $usr->getLastlogin($_SESSION['token']);
 									<div class="profile-info-name"> <i class="fa fa-calendar orange2"></i> Expiry </div>
 
 									<div class="profile-info-value">
-										<span class="editable" id="signup"><span id="expiry"><?php echo $_SESSION['interval']?> </span>Days, Date: <span class="badge badge-warning" id="expiry_date"><?php echo $expiry_date;?></span></span>
+										<span class="editable" id="signup"><span id="expiry"><?php echo $interval?> </span>Days, Date: <span class="badge badge-warning" id="expiry_date"><?php echo $expiry_date;?></span></span>
 									</div>
 								</div>
 							</div>
@@ -95,7 +98,7 @@ $lastlogin = $usr->getLastlogin($_SESSION['token']);
 
 
 									<div class="profile-info-value">
-										<input type="hidden" name="email" id="email" value="<?php echo $email?>"></span>
+										<input type="text" readonly name="email" id="email" value="<?php echo $email?>"></span>
 										<span class="editable" ><input type="password" name="temppass" id="temppass">
 
 									</div>
@@ -179,7 +182,7 @@ $lastlogin = $usr->getLastlogin($_SESSION['token']);
 						url: "../ajax/updatePassword.php", //Relative or absolute path to response.php file
 						data: {'email':email, temppass:temp, newpass:pass, confirmpass:conpass},
 						success: function (msg) {
-							alert(msg);
+							//alert(msg);
 
 							if (msg == 'db updated') {
 								$('.error').hide();
@@ -190,7 +193,7 @@ $lastlogin = $usr->getLastlogin($_SESSION['token']);
 							else {
 								$('.error').show();
 								$('.error').html('<br><span class="badge badge-danger">' + msg + '</span>');
-								alert('error '+JSON.stringify(msg));
+								//alert('error '+JSON.stringify(msg));
 							}
 						},
 						error: function (msg) {
