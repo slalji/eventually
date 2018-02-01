@@ -53,7 +53,7 @@
 
 			$stmt->execute();
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
-             if($this->my_password_verify($this->password,$data['password'], $data['salt']))
+             if(password_verify($this->password,$data['password']))
                 return ($data);
              else
                  return "Password Error, try again".$this->password;
@@ -380,11 +380,11 @@
 			$con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 			$sql = "INSERT INTO $this->table(email, salt, password, temppass, fullname, joined, firsttime, expiry, expiry_date) VALUES(:email, :salt, :password, :temppass, :fullname, now(), :firsttime, :expiry, now() + INTERVAL ".$this->expiry." DAY)";
 
-            $password_hash = $this->my_password_hash($my_password);
+            $password_hash = my_password_hash($my_password, PASSWORD_BCRYPT);
 
 			$stmt = $con->prepare( $sql );
 			$stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
-            $stmt->bindValue( "salt", $this->salt, PDO::PARAM_STR );
+
 			$stmt->bindValue( "password", $password_hash, PDO::PARAM_STR );
             $stmt->bindValue( "temppass", $my_password, PDO::PARAM_STR );
             $stmt->bindValue( "fullname", $this->fullname, PDO::PARAM_STR );
@@ -467,14 +467,15 @@
 
      public   function addNewPassword(){
          try{
-             $hash = $this->my_password_hash($this->password);
+             $hash = password_hash($this->password, PASSWORD_BCRYPT);
+
 
              $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
              $con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-             $sql = "Update $this->table set salt=:salt, password = :password, firsttime=:firsttime, temppass=:temppass, past_hash=:past_hash where email = :email;";
+             $sql = "Update $this->table set password = :password, firsttime=:firsttime, temppass=:temppass, past_hash=:past_hash where email = :email;";
              $stmt = $con->prepare( $sql );
              $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
-             $stmt->bindValue( "salt", $this->salt, PDO::PARAM_STR );
+
              $stmt->bindValue( "password", $hash, PDO::PARAM_STR );
              $stmt->bindValue( "firsttime", 'false', PDO::PARAM_STR );
              $stmt->bindValue( "temppass", '', PDO::PARAM_STR );
@@ -498,14 +499,14 @@
  }
      public   function forgottenPassword(){
          try{
-             $hash = $this->my_password_hash($this->password);
+             $hash = password_hash($this->password, PASSWORD_BCRYPT);
 
              $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
              $con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-             $sql = "Update $this->table set salt=:salt, password = :password, past_hash=:past_hash where email = :email;";
+             $sql = "Update $this->table set password = :password, past_hash=:past_hash where email = :email;";
              $stmt = $con->prepare( $sql );
              $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
-             $stmt->bindValue( "salt", $this->salt, PDO::PARAM_STR );
+
              $stmt->bindValue( "password", $hash, PDO::PARAM_STR );
              $stmt->bindValue( "past_hash", $this->pastHash(), PDO::PARAM_STR );
 
@@ -527,7 +528,7 @@
      }
      public   function expiredPassword(){
          try {
-             $hash = $this->my_password_hash($this->password);
+             $hash = password_hash($this->password, PASSWORD_BCRYPT);
 
              $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
              $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -538,7 +539,7 @@
              $rows = $stmt2->fetch(PDO::FETCH_ASSOC);
              $expiry = $rows['expiry'];
 
-             $sql = "Update $this->table set salt=:salt,password = :password, past_hash=:past_hash, expiry_date=  now() + INTERVAL " . $expiry . "  DAY where email = :email;";
+             $sql = "Update $this->table set password = :password, past_hash=:past_hash, expiry_date=  now() + INTERVAL " . $expiry . "  DAY where email = :email;";
 
              $stmt = $con->prepare($sql);
              $stmt->bindValue("email", $this->email, PDO::PARAM_STR);
@@ -693,7 +694,7 @@
          }
          return false;
      }
-     private function my_password_hash($password){
+     /*private function my_password_hash($password){
          $this->salt =  mcrypt_create_iv(22, MCRYPT_DEV_URANDOM);
          $options = [
              'cost' => 11,
@@ -711,7 +712,7 @@
          $hash = password_hash($password, PASSWORD_BCRYPT, $options);
          if ($hash != $old_hash)
              return $hash;
-     }
+     }*/
 
 
  }
