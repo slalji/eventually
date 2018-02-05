@@ -34,9 +34,7 @@
 				<input type="submit" value="Login" />
 			</form>
 		<?php
-		if (!isset($_GET['firsttime'])){
-			echo '<a href="forgotten.php" >forgotten password <i class="fa fa-arrow-circle-o-right"></i></a> ';
-		}
+
 		?>
 
 

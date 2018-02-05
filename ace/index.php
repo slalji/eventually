@@ -2,7 +2,7 @@
 session_start();
 //var_dump($_SESSION);
 if (isset($_SESSION["authenticated"]) && $_SESSION["authenticated"] == 'true' && $_SESSION['firsttime']=='true')
-	$page = 'newuser';
+	header(('location:../index.php?err=1'));//$page = 'newuser';
 else if (isset($_SESSION["authenticated"]) && $_SESSION["authenticated"] == 'true' && $_SESSION['firsttime']='false')
 	$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 else

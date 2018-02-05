@@ -119,6 +119,8 @@ if (isset($_POST['email']))
 			e.key('F5').preventDefault();
 			e.preventDefault();
 		});
+		if ($(".success").html() != undefined)
+			$("#signup-form").hide();
 
 
 	});

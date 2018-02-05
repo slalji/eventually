@@ -10,7 +10,7 @@ $dbid='';
 if (isset($_SESSION['fullname']))
 	$fullname = $_SESSION['fullname'];
 
-if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
+/*if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 
 	$temp = null;
 	$confirm = null;
@@ -47,7 +47,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 	echo json_encode($messages);
 
 
-}
+}*/
 ?>
 
 <!DOCTYPE HTML>
@@ -94,9 +94,10 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 <p>
 <!-- Signup Form -->
 <form id="theForm" method="post" >
-	<input type="email" id="email"  autofocus name="email"  placeholder="Email address" value="<?php echo $email?>" />
-	<input type="password" id="newpass"  autofocus name="newpass"  placeholder="New Password" value="" class="new" />
-	<input type="password" id="confirmpass"  autofocus name="confirmpass"  placeholder="Confirm New Password" value="" />
+	<input type="email" id="email"  autofocus name="email"  placeholder="Email address" required value="<?php echo $email?>" />
+	<input type="password" id="temppass"  autofocus name="temppass"  placeholder="Previous Password" required value=""   />
+	<input type="password" id="newpass"  autofocus name="newpass"  placeholder="New Password" value="" required class="new" />
+	<input type="password" id="confirmpass"  autofocus name="confirmpass"  placeholder="Confirm New Password" required value="" />
 
 
 	 <input type="submit" value="Submit" id="submit" name="submit" />
@@ -170,6 +171,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 		});
 		$("#submit").click(function () {
 				var email = $('#email').val();
+			var temppass = $('#temppass').val();
 				var pass = $('#newpass').val();
 				var conpass = $('#confirmpass').val();
 
@@ -177,14 +179,14 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 				$.ajax({
 					type: "POST",
 					url: "ajax/expiredPassword.php", //Relative or absolute path to response.php file
-					data: {'email':email, password:pass, conpassword:conpass},
+					data: {'email':email, temppass:temppass, password:pass, conpassword:conpass},
 					success: function (msg) {
 						//alert(msg);
 
 
 						if (msg == 'db updated') {
 							//$('.message').css('display','inline');
-							$('#errors').html('<br><span xclass="badge badge-success">Password changed</span>');
+							$('#errors').html('<br><span >Password changed</span>'+msg);
 
 						}
 						else {
@@ -192,17 +194,17 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 							var arr = JSON.parse(msg);
 							//alert(arr);
 
-							$('#errors').html('<br><span xclass="badge badge-danger">' + arr + '</span>');
+							$('#errors').html('<br><span >' + arr + '</span>');
 
 						}
 					},
 					error: function (msg) {
-						//alert(msg);
+						alert(msg);
 						var errors=null;
 						var arr = JSON.parse(msg);
 						//alert(arr);
 
-						$('#errors').html('<br><span xclass="badge badge-danger">' + arr + '</span>');
+						$('#errors').html('<br><span >' + arr + '</span>'+msg);
 					}
 				});
 				return false;

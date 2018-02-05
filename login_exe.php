@@ -22,11 +22,17 @@ $_SESSION = array();
 
 
         $data = $usr->userLogin();
-        //var_dump($data);
-        $token = uniqid();
 
-        if (!isset($data['firsttime']))
-           header('location:index.php?pass'.$_POST['password']);
+        if ($data == false){
+            header('location:index.php?err=1');
+            }
+
+        $token = uniqid();
+        //die(var_dump($data));
+        if (!isset($data['firsttime'])) {
+            //
+            header('location:index.php?err=1');
+        }
         else if ($data['firsttime'] == 'true') {
            // var_dump('First Time! ' . $data);
             $_SESSION["authenticated"] = 'true';
@@ -51,8 +57,9 @@ $_SESSION = array();
            //die($usr->updateCurrentlogin($token));
             if (date('Y-m-d') >= $usr->getExpiryDate($token))
                 header('location:expired.php');
-            else
-                header('location:ace/');
+            else {
+                //die(var_dump($data));
+                header('location:ace/');}
         }
 
 

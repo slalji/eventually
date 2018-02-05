@@ -4,7 +4,7 @@ jQuery(function($) {
     console.log(section);
     var myTable =
         $('#dynamic-table').DataTable( {
-            //serverSide: true,
+            serverSide: true,
             bAutoWidth: false,
             ajax: {
                 url: 'ajax/getItem.php',
@@ -15,29 +15,29 @@ jQuery(function($) {
             "columns": [
                 { "data": "id" },
                 { "data": "fulltimestamp" },
-                { "data": "name" },
-                { "data": "initiated" },
-                { "data": "initiated_expiry" },
+
                 { "data": "min_payin" },
                 { "data": "max_payin" },
                 { "data": "meeting_open_status" },
-                { "data": "loan_service_charge" },
+                { "data": "last_meeting_close_time" },
+                { "data": "max_loan_duration" },
                 { "data": "cycle_counter" },
-                { "data": "total_meetings_in_cycle" },
+              { "data": "total_meetings_in_cycle" },
                 { "data": "meetings_remaining" },
                 { "data": "meetings_remaining_seton" },
-                { "data": "funds_available" },
-                { "data": "savings_total" },
+               { "data": "savings_total" },
                 { "data": "savings_since_last_meeting" },
-                { "data": "loan_outstanding_total" },
+               { "data": "repayment_since_last_meeting" },
+               { "data": "loan_outstanding_total" },
                 { "data": "interest_collected" },
-                { "data": "status" },
-                { "data": "chairman_resid" },
-                { "data": "secretary_resid" }
+                { "data": "name"}
 
             ],
+
+
             "dom": '<"toolbar">frtip'
         } );
+    $('#group').css({ 'min-width': '100px', 'max-width': '150px !important' });
     $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');
 
 

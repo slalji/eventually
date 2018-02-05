@@ -35,7 +35,7 @@
 		});
 
 	// Slideshow Background.
-		(function() {
+		/*(function() {
 
 			// Settings.
 				var settings = {
@@ -106,7 +106,7 @@
 				}, settings.delay);
 
 
-		})();
+		})();*/
 
 	// Signup Form.
 

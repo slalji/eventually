@@ -18,7 +18,7 @@ else if ($section == 'loanstatement')
 else if ($section == 'cashout')
 	$query="SELECT t.id, t.fulltimestamp, t.msisdn, t.transid, t.serial, t.utilitytype, t.amount, t.status, t.message from cashout t  order by t.fulltimestamp desc";
 else if ($section == 'shareout')
-	$query="SELECT t.id, t.fulltimestamp, t.msisdn, t.userfee, t.total_shareout, t.totalsavings, t.income, t.avg_balance, t.sum_avg_balance, s.name from shareout t join savings_group s on s.groupid = t.groupid  order by t.fulltimestamp desc";
+	$query="SELECT t.id, t.fulltimestamp, t.msisdn, t.userfee, t.total_shareout, t.totalsavings, t.income, t.avg_balance, t.sum_avg_balance, s.name from shareout t join savings_group s on s.groupid = t.groupid  where t.msisdn not like '%GLINCOME01%' order by t.fulltimestamp desc";
 else if ($section == 'savingsgroup')
 	$query="SELECT * from savings_group t order by fulltimestamp desc ";
 else if ($section == 'logs')
@@ -55,13 +55,13 @@ $my_results=array();
 foreach($arr as $d){
 	foreach ($d as $key => $value) {
 
-		if ($key == 'msisdn') {
+		/*if ($key == 'msisdn') {
 
 			$val = '+' . preg_replace('/\d{3}/', '$0 ', str_replace('.', null, trim($value)), 3);
 			$d['msisdn'] = $val;
 
 			//echo $value;
-		}
+		}*/
 		if ($key == 'tstatus' && $value == 'SUCCESS'){
 			$d[$key]=fn_format_label_success($key, $value);
 		}

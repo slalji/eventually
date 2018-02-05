@@ -11,7 +11,12 @@ jQuery(function($) {
 
     var myTable =
         $('#dynamic-table').DataTable( {
-            //serverSide: true,
+            //"processing": true,
+            "serverSide": true,
+            "paging": true,
+            "draw": 1,
+           // "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+            "pageLength": 10,
             bAutoWidth: false,
             ajax: {
                 url: 'ajax/getItem.php',

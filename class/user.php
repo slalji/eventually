@@ -24,7 +24,7 @@
         if( isset( $data['password'] ) ) $this->password = ( ( $data['password'] ) );
         if( isset( $data['conpassword'] ) ) $this->confirm = ( ( $data['conpassword'] ) );
         if( isset( $data['fullname'] ) ) $this->fullname = ( ( $data['fullname'] ) );
-        if( isset( $data['interval'] ) ) $this->expiry = ( intval( $data['interval'] ) );
+        if( isset( $data['interval'] ) ) $this->expiry = (intval( $data['interval'] ));
 	 }
 	 
 	 public function storeFormValues( $params ) {
@@ -32,12 +32,8 @@
              
 		$this->__construct( $params ); 
 	 }
-     /*public function setEmail($email){
-         $this->email = $email;
-     }*/
-     /*public function setPassword($pass){
-         $this->password = $pass;
-     }*/
+
+
 	 public function userLogin() {
               
 		 try{
@@ -56,7 +52,7 @@
              if(password_verify($this->password,$data['password']))
                 return ($data);
              else
-                 return "Password Error, try again".$this->password;
+                 return false;//"Password Error, try again".$this->password;
 
 		 }catch (PDOException $e) {
 			  echo $e->getMessage()." userLogin";
@@ -237,14 +233,15 @@
              try {
                  $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
                  $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                 $query = "select lastlogin from users where token =:token";
+                 $query = "select currentlogin from users where token =:token";
                  $stmt2 = $con->prepare($query);
                  $stmt2->bindValue("token", $token, PDO::PARAM_STR);
                  $stmt2->execute();
                  $r = $stmt2->fetch(PDO::FETCH_ASSOC);
+
                  $currentlogin = $r['currentlogin'];
 
-                 $sql = "Update ".  $this->table." set lastlogin=".$currentlogin.",currentlogin=now() WHERE token = :token LIMIT 1";
+                    $sql = "Update ".  $this->table." set lastlogin='".$currentlogin."',currentlogin=now() WHERE token = :token LIMIT 1";
 
 
                  $stmt = $con->prepare($sql);
@@ -300,7 +297,7 @@
 
          $num_rows = $stmt->rowCount();
          if ($num_rows > 0)
-             return "Username," . $_POST['email'] . ", already exists";
+             return "Username," . $this->email . ", already exists";
 
 
      } catch (PDOException $e) {
@@ -378,9 +375,9 @@
         try{
 			$con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD ); 
 			$con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-			$sql = "INSERT INTO $this->table(email, salt, password, temppass, fullname, joined, firsttime, expiry, expiry_date) VALUES(:email, :salt, :password, :temppass, :fullname, now(), :firsttime, :expiry, now() + INTERVAL ".$this->expiry." DAY)";
+			$sql = "INSERT INTO $this->table(email,  password, temppass, fullname, joined, currentlogin, lastlogin, firsttime, expiry, expiry_date) VALUES(:email,  :password, :temppass, :fullname, now(), now(), now(), :firsttime, :expiry, now() + INTERVAL ".$this->expiry." DAY)";
 
-            $password_hash = my_password_hash($my_password, PASSWORD_BCRYPT);
+            $password_hash = password_hash($my_password, PASSWORD_BCRYPT);
 
 			$stmt = $con->prepare( $sql );
 			$stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
@@ -543,7 +540,7 @@
 
              $stmt = $con->prepare($sql);
              $stmt->bindValue("email", $this->email, PDO::PARAM_STR);
-             $stmt->bindValue("salt", $this->salt, PDO::PARAM_STR);
+
              $stmt->bindValue("password", $hash, PDO::PARAM_STR);
              $stmt->bindValue("past_hash", $this->pastHash(), PDO::PARAM_STR);
 
@@ -703,16 +700,30 @@
 
          return password_hash($password, PASSWORD_BCRYPT, $options);
      }
-     private function my_password_verify($password, $old_hash, $salt){
+     */
+     public function verifyPassword($password)
+     {
+         try {
+             $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-         $options = [
-             'cost' => 11,
-             'salt' => $salt,
-         ];
-         $hash = password_hash($password, PASSWORD_BCRYPT, $options);
-         if ($hash != $old_hash)
-             return $hash;
-     }*/
+             $sql = "SELECT password FROM $this->table WHERE email = :email LIMIT 1";
+             $stmt = $con->prepare($sql);
+             $stmt->bindValue("email", $this->email, PDO::PARAM_STR);
+             $stmt->execute();
+             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+             //verify temp password or previous password
+             if (password_verify($password,$row['password']))
+                 return true;
+             else
+                 return false;
+
+
+         } catch (PDOException $e) {
+             return $e->errorInfo();
+         }
+     }
 
 
  }

@@ -18,29 +18,25 @@
                 <tr>
                     <th xclass="detail-col hidden">ID</th>
                     <th>Date</th>
-                    <th>Group</th>
-                    <th class="hidden-480">Savings Account</th>
-                    <th>Initiated</th>
-                    <th>Initiated Expiry</th>
+
+
                     <th>Min Payin</th>
                     <th>Max Payin</th>
                     <th>Meeting Open Status</th>
                     <th>Last Meeting Close Time</th>
-                    <th>Loan Service Charge</th>
                     <th>Max Loan Duration</th>
+
                     <th>Cycle Counter</th>
                     <th>Total Meetings in Cycle</th>
                     <th>Meetings Remaining</th>
                     <th>Meetings Remaining Seton</th>
-                    <th>Funds Available</th>
                     <th>Savings Total</th>
                     <th>Savings Since Last Meeting</th>
                     <th>Repayment Since Last Meeting</th>
                     <th>Loan Outstanding Total</th>
                     <th>Interest Collected</th>
-                    <th>Status</th>
-                    <th>Chairman Reside</th>
-                    <th>Secretary Reside</th>
+                    <th>Group</th>
+
 
 
                 </tr>

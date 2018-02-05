@@ -7,6 +7,7 @@ $new=null;
 $user=null;
 $email='';
 $errmsg_arr = array();
+$messages=null;
 
 if( isset( $_REQUEST['email'] ) ) $email = stripslashes( strip_tags( $_REQUEST['email'] ) );
 if( isset( $_REQUEST['password'] ) ) $password = $_REQUEST['password'];
@@ -14,21 +15,10 @@ if( isset( $_REQUEST['conpassword'] ) ) $confirm = $_REQUEST['conpassword'] ;
 
 $usr = new Users();
 $usr->storeFormValues($_REQUEST);
-//$check = $usr->checkemail();
-//echo $check;
-//$err = json_encode($check);
-
-//var_dump( 'past <p>'.$past_hash.'<p>hash '.$hash.'<p>pos '.$pos.'<p>arr'.$arr);
-$past_hashes = $usr->getPastHash();
-$hashes = explode(',', $past_hashes);
-foreach($hashes as $hash){
-    /*if(Hash::check($_REQUEST['password'], $hash)){
-        exit('Sorry can\'t use the same password twice');
-    }*/
-    echo "<li>".$hash;
-}
-
-$messages= null;
+$check = $usr->checkemail();
+$err = json_encode($check);
+if ($err == 'null')
+    $messages[]= 'invalid email address '.$email;
 $error = ($usr->validate());
 //echo '<div class="message failure" style=opacity:1> ';
 if ($usr->getFirsttime($_REQUEST['email']) == 'true')

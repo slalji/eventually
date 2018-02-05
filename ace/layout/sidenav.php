@@ -104,7 +104,7 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="active" name="transactions">
+                    <li class="" name="transactions">
                         <a href="<?php echo $_SERVER['PHP_SELF']?>?page=transactions" >
                             <i class="menu-icon fa fa-caret-right"></i>
                             Transactions
