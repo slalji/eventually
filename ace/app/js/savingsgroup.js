@@ -1,10 +1,10 @@
 jQuery(function($) {
     //initiate dataTables plugin
     var section = $('#section').html();
-    console.log(section);
+    //console.log(section);
     var myTable =
         $('#dynamic-table').DataTable( {
-            serverSide: true,
+            //serverSide: true,
             bAutoWidth: false,
             ajax: {
                 url: 'ajax/getItem.php',
@@ -13,24 +13,23 @@ jQuery(function($) {
                 data: {section:section}
             },
             "columns": [
-                { "data": "id" },
-                { "data": "fulltimestamp" },
-
-                { "data": "min_payin" },
-                { "data": "max_payin" },
-                { "data": "meeting_open_status" },
-                { "data": "last_meeting_close_time" },
-                { "data": "max_loan_duration" },
-                { "data": "cycle_counter" },
-              { "data": "total_meetings_in_cycle" },
-                { "data": "meetings_remaining" },
-                { "data": "meetings_remaining_seton" },
-               { "data": "savings_total" },
-                { "data": "savings_since_last_meeting" },
-               { "data": "repayment_since_last_meeting" },
-               { "data": "loan_outstanding_total" },
-                { "data": "interest_collected" },
-                { "data": "name"}
+                    { "data": "id" },
+                    { "data": "fulltimestamp" },
+                    { "data": "min_payin" },
+                    { "data": "max_payin" },
+                    { "data": "meeting_open_status" },
+                    { "data": "last_meeting_close_time" },
+                    { "data": "max_loan_duration" },
+                    { "data": "cycle_counter" },
+                    { "data": "total_meetings_in_cycle" },
+                    { "data": "meetings_remaining" },
+                    { "data": "meetings_remaining_seton" },
+                    { "data": "savings_total" },
+                    { "data": "savings_since_last_meeting" },
+                    { "data": "repayment_since_last_meeting" },
+                    { "data": "loan_outstanding_total" },
+                    { "data": "interest_collected" },
+                    { "data": "name"}
 
             ],
 

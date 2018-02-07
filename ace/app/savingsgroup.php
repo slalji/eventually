@@ -25,7 +25,6 @@
                     <th>Meeting Open Status</th>
                     <th>Last Meeting Close Time</th>
                     <th>Max Loan Duration</th>
-
                     <th>Cycle Counter</th>
                     <th>Total Meetings in Cycle</th>
                     <th>Meetings Remaining</th>

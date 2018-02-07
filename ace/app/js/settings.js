@@ -24,7 +24,7 @@ $(document).ready(function() {
             url: 'ajax/setServiceSetting',
             data: $( "#theForm" ).serialize(),
             success: function( response ) {
-                console.log( response );
+                //console.log( response );
                 document.getElementById('message').innerHTML = '<div class="alert alert-success"> <strong>Saved !</strong> </div>';
                 window.setTimeout(function () {
                     $("#message").hide();
@@ -60,7 +60,7 @@ jQuery(function($) {
         $(e.currentTarget).find('input[name="row-id"]').val(rowId);
         var section = $('#section').html();
         var rowId = $('#row-id').val();
-        console.log('rowId '+rowId);
+        //console.log('rowId '+rowId);
         $.ajax({
             url: 'ajax/getServiceItem.php',
             type: 'GET',
@@ -120,10 +120,10 @@ jQuery(function($) {
         } );
     } );
     var section = $('#section').html();
-    console.log(section);
+    //console.log(section);
     var myTable =
         $('#dynamic-table').DataTable( {
-            //serverSide: true,
+            serverSide: true,
             bAutoWidth: false,
             ajax: {
                 url: 'ajax/getItem.php',

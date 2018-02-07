@@ -57,7 +57,7 @@ jQuery(function($) {
         $(e.currentTarget).find('input[name="row-id"]').val(rowId);
         var section = $('#section').html();
         var rowId = $('#row-id').val();
-        console.log('rowId '+rowId);
+        //console.log('rowId '+rowId);
         $.ajax({
             url: 'ajax/getServiceItem.php',
             type: 'GET',
@@ -120,7 +120,7 @@ jQuery(function($) {
         } );
     } );
     var section = $('#section').html();
-    console.log(section);
+    //console.log(section);
     var myTable =
         $('#dynamic-table').DataTable( {
             //serverSide: true,

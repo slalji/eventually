@@ -3,9 +3,13 @@ require_once '../includes/db.php'; // The mysql database connection script
 $filter = '';
 $where = '';
 $section ='';
+$limit = 50;
 
 if(isset($_GET['section'])){
 	$section = $mysqli->real_escape_string($_GET['section']);
+}
+if(isset($_GET['limit'])){
+	$limit = $mysqli->real_escape_string($_GET['limit']);
 }
 
 $query='';
@@ -20,7 +24,8 @@ else if ($section == 'cashout')
 else if ($section == 'shareout')
 	$query="SELECT t.id, t.fulltimestamp, t.msisdn, t.userfee, t.total_shareout, t.totalsavings, t.income, t.avg_balance, t.sum_avg_balance, s.name from shareout t join savings_group s on s.groupid = t.groupid  where t.msisdn not like '%GLINCOME01%' order by t.fulltimestamp desc";
 else if ($section == 'savingsgroup')
-	$query="SELECT * from savings_group t order by fulltimestamp desc ";
+	$query="SELECT * from savings_group t order by fulltimestamp desc ".$params['start']." ,".$params['length']." ";
+
 else if ($section == 'logs')
 	$query="SELECT t.id, t.date, s.name, t.reference, t.step, t.description  from tlog t join savings_group s on s.groupid = t.groupid  order by t.date desc";
 else if ($section == 'servicemsg' )
@@ -29,11 +34,16 @@ else if ($section == 'servicedesc' )
 	$query="SELECT * from service_desc t order by id desc";
 else if ($section == 'settings' )
 	$query="SELECT * from settings t order by id desc";
+else if ($section == 'serverside' )
+	$query="SELECT * from serverside t order by id desc limit ".$limit;
+else if ($section == 'clientside' )
+	$query="SELECT * from serverside t order by id desc ";
 
 $result = $mysqli->query($query) or die($mysqli->error.__LINE__);
 
 $arr = array();
 $columns = array();
+$num_row = $result->num_rows;
 if($result->num_rows > 0) {
 	$rows = mysqli_fetch_assoc($result);
 	$columns = array_keys($rows);
@@ -86,9 +96,10 @@ foreach($arr as $d){
 			$val='Swhaili';
 			$d['lang'] = $val;
 		}
-		$phone = substr($value, 0, 3);
+		/*$phone = substr($value, 0, 3);
 		if (is_numeric($value) && $key != 'msisdn' && $key != 'reference' && $key != 'id' && $key !='triggeredby')
 			$d[$key]=fn_formatNums($key, $value);
+		*/
 
 
 	}
@@ -96,8 +107,12 @@ foreach($arr as $d){
 	$my_results[]=$d;
 }
 //$jsonData['data']=$arr;
+$jsonData['draw']=1;
+$jsonData['recordsTotal']=$num_row;
+$jsonData['recordsFiltered']=$num_row;
 $jsonData['data']=$my_results;
 $jsonData['columns']=$columns;
+
 $json = json_encode($jsonData);
 echo $json;
 

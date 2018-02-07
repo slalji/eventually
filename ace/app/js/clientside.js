@@ -1,49 +1,37 @@
+$( document ).ready(function() {
+
+
+});
 jQuery(function($) {
     //initiate dataTables plugin
     var section = $('#section').html();
-    var columns= 'id, date, name, reference, step';
     //console.log(section);
+    var start;
+    var end;
+
     var myTable =
         $('#dynamic-table').DataTable( {
+            "scrollX": true,
             "processing": true,
             "serverSide": true,
-            "ajax": {
-                url: "ajax/getServerSide.php", // json datasource
-                data: {section: section, columns: columns},
-                type: "post",  // method  , by default get
+            ajax: {
+                url: 'ajax/getItem.php',
+                type: 'GET',
+                dataType: 'json',
+                data: {section:section}
+            },
+            "columns": [
+                { "data": "first_name" },
+                { "data": "last_name" },
+                { "data": "email" },
+                { "data": "gender" },
+                { "data": "ip_address" }
 
-                /*success: function (data, textStatus) {
-                    //alert('request successful ' + JSON.stringify(data));
-                    $('#error').html(JSON.stringify(data));
-                },*/
-                error: function (xhr, textStatus, errorThrown) {
-                    //alert('request failed ' + JSON.stringify(xhr));
-                    //$('#error').html(JSON.stringify(xhr));
-                    $('#error').html(JSON.stringify(xhr));
-                },
-                "columns": [
-                    {"data": "id"},
-                    {"data": "date"},
-                    {"data": "name"},
-                    {"data": "reference"},
-                    {"data": "step"}
-
-                ],
-                "dom": '<"toolbar">frtip'
-            }
-
-            } );
+            ],
+            "dom": '<"toolbar">frtip'
+        } );
     $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');
 
-    $('#reportrange').keyup( function() {
-        myTable.draw();
-    } );
-
-
-// Re-draw the table when the a date range filter changes
-    $('.date-range-filter').change(function() {
-        myTable.draw();
-    });
 
     //$('#my-table_filter').hide();
 
@@ -123,20 +111,6 @@ jQuery(function($) {
 
 
 
-
-
-    myTable.on( 'select', function ( e, dt, type, index ) {
-        if ( type === 'row' ) {
-            $( myTable.row( index ).node() ).find('input:checkbox').prop('checked', true);
-        }
-    } );
-    myTable.on( 'deselect', function ( e, dt, type, index ) {
-        if ( type === 'row' ) {
-            $( myTable.row( index ).node() ).find('input:checkbox').prop('checked', false);
-        }
-    } );
-
-
     /********************************/
     //add tooltip for small view action buttons in dropdown menu
     $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
@@ -154,20 +128,6 @@ jQuery(function($) {
         if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
         return 'left';
     }
-
-
-
-
-    /***************/
-    $('.show-details-btn').on('click', function(e) {
-        e.preventDefault();
-        $(this).closest('tr').next().toggleClass('open');
-        $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
-    });
-    /***************/
-
-
-
 
 // Date range script - Start of the sscript
     $("#reportrange").daterangepicker({
@@ -229,5 +189,8 @@ jQuery(function($) {
 //End of the datable
 
 
-})
+
+
+});
+
 

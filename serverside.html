@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<title>Datatable Demo3  Scroller (Server side) | CoderExample</title>
+<head>
+    <link rel="stylesheet" type="text/css" xhref="ace/assets/css/jquery.dataTables.css">
+    <script src="ace/assets/js/jquery-2.1.4.min.js"></script>
+
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <script src="ace/assets/js/jquery.dataTables.min.js"></script>
+    <script src="ace/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="ace/assets/js/dataTables.buttons.min.js"></script>
+    <script src="ace/assets/js/buttons.flash.min.js"></script>
+    <script src="ace/assets/js/buttons.html5.min.js"></script>
+    <script src="ace/assets/js/buttons.print.min.js"></script>
+    <script src="ace/assets/js/buttons.colVis.min.js"></script>
+    <script src="ace/assets/js/dataTables.select.min.js"></script>
+
+    <script type="text/javascript" language="javascript" >
+        $(document).ready(function() {
+            var dataTable =  $('#employee-grid').DataTable( {
+                serverSide: true,
+                ajax:{
+                    url :"serverside.php", // json datasource
+                    type: "post",  // method  , by default get
+                    error: function(){  // error handling
+                        $(".serverside").html("");
+                        $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                        $("#employee-grid_processing").css("display","none");
+                    }
+                },
+                dom: "frtiS",
+                scrollY: 200,
+                deferRender: true,
+                scrollCollapse: true,
+                scroller: {
+                    loadingIndicator: true
+                }
+            } );
+        } );
+    </script>
+    <style>
+        div.container {
+            margin: 0 auto;
+            max-width:760px;
+        }
+        div.header {
+            margin: 100px auto;
+            line-height:30px;
+            max-width:760px;
+        }
+        body {
+            background: #f7f7f7;
+            color: #333;
+            font: 90%/1.45em "Helvetica Neue",HelveticaNeue,Verdana,Arial,Helvetica,sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div class="header"><h1>DataTable  Scroller (Server side) </h1></div>
+<div class="container">
+    <table id="employee-grid"  cellpadding="0" cellspacing="0" border="0" class="display" width="100%">
+        <thead>
+        <tr>
+            <th>Employee name</th>
+            <th>Salary</th>
+            <th>Age</th>
+        </tr>
+        </thead>
+    </table>
+
+    <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline no-footer"><div class="toolbar">
+        <div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div></div><div id="dynamic-table_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="dynamic-table"></label></div><table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="dynamic-table_info">
+        <thead>
+        <tr role="row">
+            <th class="sorting_asc" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="First name: activate to sort column descending" aria-sort="ascending">First name</th>
+            <th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Last name: activate to sort column ascending">Last name</th>
+            <th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending">Email</th>
+            <th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Gender: activate to sort column ascending">Gender</th>
+            <th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="IP Address: activate to sort column ascending">IP Address</th></tr>
+        </thead>
+
+        <tbody>
+
+        <tr role="row" class="odd">
+            <td class="sorting_1">Aaren</td><td>Willgoose</td><td>awillgoose66@e-recht24.de</td><td>Female</td><td>26.138.79.209</td></tr>
+        <tr role="row" class="even"><td class="sorting_1">Aaren</td><td>Willgoose</td><td>awillgoose66@e-recht24.de</td><td>Female</td><td>26.138.79.209</td></tr><tr role="row" class="odd"><td class="sorting_1">Aaren</td><td>Willgoose</td><td>awillgoose66@e-recht24.de</td><td>Female</td><td>26.138.79.209</td></tr><tr role="row" class="even"><td class="sorting_1">Aaren</td><td>Willgoose</td><td>awillgoose66@e-recht24.de</td><td>Female</td><td>26.138.79.209</td></tr><tr role="row" class="odd"><td class="sorting_1">Aaren</td><td>Willgoose</td><td>awillgoose66@e-recht24.de</td><td>Female</td><td>26.138.79.209</td></tr><tr role="row" class="even"><td class="sorting_1">Aarika</td><td>Venediktov</td><td>avenediktovin@wikimedia.org</td><td>Female</td><td>245.172.49.80</td></tr><tr role="row" class="odd"><td class="sorting_1">Aarika</td><td>Venediktov</td><td>avenediktovin@wikimedia.org</td><td>Female</td><td>245.172.49.80</td></tr><tr role="row" class="even"><td class="sorting_1">Aarika</td><td>Venediktov</td><td>avenediktovin@wikimedia.org</td><td>Female</td><td>245.172.49.80</td></tr><tr role="row" class="odd"><td class="sorting_1">Aarika</td><td>Venediktov</td><td>avenediktovin@wikimedia.org</td><td>Female</td><td>245.172.49.80</td></tr><tr role="row" class="even"><td class="sorting_1">Aarika</td><td>Venediktov</td><td>avenediktovin@wikimedia.org</td><td>Female</td><td>245.172.49.80</td></tr></tbody>
+    </table>
+        <div class="dataTables_info" id="dynamic-table_info" role="status" aria-live="polite">Showing 1 to 10 of 105,999 entries</div><div class="dataTables_paginate paging_simple_numbers" id="dynamic-table_paginate"><ul class="pagination"><li class="paginate_button previous disabled" aria-controls="dynamic-table" tabindex="0" id="dynamic-table_previous"><a href="#">Previous</a></li><li class="paginate_button active" aria-controls="dynamic-table" tabindex="0"><a href="#">1</a></li><li class="paginate_button " aria-controls="dynamic-table" tabindex="0"><a href="#">2</a></li><li class="paginate_button " aria-controls="dynamic-table" tabindex="0"><a href="#">3</a></li><li class="paginate_button " aria-controls="dynamic-table" tabindex="0"><a href="#">4</a></li><li class="paginate_button " aria-controls="dynamic-table" tabindex="0"><a href="#">5</a></li><li class="paginate_button disabled" aria-controls="dynamic-table" tabindex="0" id="dynamic-table_ellipsis"><a href="#">…</a></li><li class="paginate_button " aria-controls="dynamic-table" tabindex="0"><a href="#">10600</a></li><li class="paginate_button next" aria-controls="dynamic-table" tabindex="0" id="dynamic-table_next"><a href="#">Next</a></li></ul></div></div>
+</div>
+</body>
+</html>

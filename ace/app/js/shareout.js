@@ -1,7 +1,7 @@
 jQuery(function($) {
     //initiate dataTables plugin
     var section = $('#section').html();
-    console.log(section);
+    //console.log(section);
     var myTable =
         $('#dynamic-table').DataTable( {
             //serverSide: true,

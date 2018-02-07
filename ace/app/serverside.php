@@ -7,7 +7,7 @@
             <div class="pull-right tableTools-container"></div>
         </div>
         <div class="table-header">
-            Logs
+            Server side
         </div>
 
         <!-- div.table-responsive -->
@@ -17,24 +17,21 @@
             <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
+                   <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>IP Address</th>
 
-                    <th xclass="detail-col hidden">ID</th>
-                    <th>Date</th>
-                    <th>Group</th>
-                    <th xclass="hidden-480">Reference</th>
-
-                    <th>
-                        Step
-                    </th>
-                    <th class="hidden-480">Description</th>
 
                 </tr>
                 </thead>
 
-                <tbody id="transaction_table">
+                <tbody >
 
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+

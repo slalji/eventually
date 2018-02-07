@@ -1,3 +1,4 @@
+<div id="error"></div>
 <div class="row">
     <div class="col-xs-12">
         <!--<h3 class="header smaller lighter blue">jQuery dataTables</h3>-->

@@ -1,34 +1,22 @@
 jQuery(function($) {
     //initiate dataTables plugin
     var section = $('#section').html();
-    console.log(section);
+    var columns = 'id,fulltimestamp,msisdn,transtype,reference,service,principal,charge,pricipal_obal,principal_cbal,charge_obal,charge_cbal,name';
     var myTable =
         $('#dynamic-table').DataTable( {
-            //serverSide: true,
-            bAutoWidth: false,
+            "processing": true,
+            "serverSide": true,
+
             ajax: {
-                url: 'ajax/getItem.php',
-                type: 'GET',
-                dataType: 'json',
-                data: {section:section}
+                url: "ajax/getServerSide.php", // json datasource
+                data: {section: section, columns: columns},
+                type: "post",  // method  , by default get
+                error: function (xhr, textStatus, errorThrown) {
+
+                    $('#error').html("Err"+JSON.stringify(xhr));
+                }
             },
 
-            "columns": [
-                { "data": "id" },
-                { "data": "fulltimestamp" },
-                { "data": "msisdn" },
-                { "data": "transtype" },
-                { "data": "reference" },
-                { "data": "service" },
-                { "data": "principal" },
-                { "data": "charge" },
-                { "data": "pricipal_obal" },
-                { "data": "principal_cbal" },
-                { "data": "charge_obal" },
-                { "data": "charge_cbal" },
-                { "data": "name" }
-
-            ],
             "dom": '<"toolbar">frtip'
         } );
     $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');

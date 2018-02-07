@@ -31,6 +31,7 @@
                     <th>Opening Bal</th>
                     <th>Closing Bal</th>
                     <th>Group</th>
+
                 </tr>
                 </thead>
 

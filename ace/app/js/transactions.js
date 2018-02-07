@@ -5,38 +5,24 @@ $( document ).ready(function() {
 jQuery(function($) {
     //initiate dataTables plugin
     var section = $('#section').html();
-    console.log(section);
-    var start;
-    var end;
+    var columns= 'id, fulltimestamp, msisdn, account, service, reference,amount,tstatus,lang,name';
 
     var myTable =
         $('#dynamic-table').DataTable( {
-            //"processing": true,
+            "processing": true,
             "serverSide": true,
-            "paging": true,
-            "draw": 1,
-           // "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
-            "pageLength": 10,
-            bAutoWidth: false,
-            ajax: {
-                url: 'ajax/getItem.php',
-                type: 'GET',
-                dataType: 'json',
-                data: {section:section}
-            },
-            "columns": [
-                { "data": "id" },
-                { "data": "fulltimestamp" },
-                { "data": "msisdn" },
-                { "data": "account" },
-                { "data": "service" },
-                { "data": "reference" },
-                { "data": "amount" },
-                { "data": "tstatus" },
-                { "data": "lang" },
-                { "data": "name" }
 
-            ],
+
+
+            ajax: {
+                url: "ajax/getServerSide.php", // json datasource
+                data: {section: section, columns: columns},
+                type: "post",  // method  , by default get
+                error: function (xhr, textStatus, errorThrown) {
+
+                    $('#error').html("Err"+JSON.stringify(xhr));
+                }
+            },
             "dom": '<"toolbar">frtip'
         } );
     $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');
