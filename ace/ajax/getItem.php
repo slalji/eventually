@@ -24,7 +24,7 @@ else if ($section == 'cashout')
 else if ($section == 'shareout')
 	$query="SELECT t.id, t.fulltimestamp, t.msisdn, t.userfee, t.total_shareout, t.totalsavings, t.income, t.avg_balance, t.sum_avg_balance, s.name from shareout t join savings_group s on s.groupid = t.groupid  where t.msisdn not like '%GLINCOME01%' order by t.fulltimestamp desc";
 else if ($section == 'savingsgroup')
-	$query="SELECT * from savings_group t order by fulltimestamp desc ".$params['start']." ,".$params['length']." ";
+	$query="SELECT id, fulltimestamp, min_payin, max_payin, meeting_open_status, last_meeting_close_time, max_loan_duration, cycle_counter, meetings_remaining, meetings_remaining_seton, savings_total, savings_since_last_meeting, loan_outstanding_total, interest_collected, name from savings_group t order by fulltimestamp desc ".$params['start']." ,".$params['length']." ";
 
 else if ($section == 'logs')
 	$query="SELECT t.id, t.date, s.name, t.reference, t.step, t.description  from tlog t join savings_group s on s.groupid = t.groupid  order by t.date desc";
@@ -37,7 +37,7 @@ else if ($section == 'settings' )
 else if ($section == 'serverside' )
 	$query="SELECT * from serverside t order by id desc limit ".$limit;
 else if ($section == 'clientside' )
-	$query="SELECT * from serverside t order by id desc ";
+	$query="SELECT id, fulltimestamp, min_payin, max_payin, meeting_open_status, last_meeting_close_time, max_loan_duration, cycle_counter, meetings_remaining, meetings_remaining_seton, savings_total, savings_since_last_meeting, loan_outstanding_total, interest_collected, name from serverside t order by id desc ";
 
 $result = $mysqli->query($query) or die($mysqli->error.__LINE__);
 

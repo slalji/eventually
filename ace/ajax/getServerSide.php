@@ -16,6 +16,8 @@ $requestData= $_REQUEST;
 $cols = explode(',',$_REQUEST['columns']);
 $columns = array();
 $section = $_REQUEST['section'];
+$where = '';
+$orderby='';
 
 foreach($cols as $col){
 	$columns[]=$col;
@@ -34,14 +36,27 @@ foreach($cols as $col){
 $sql = "SELECT first_name, last_name, email, gender, ip_address ";
 $sql.=" FROM serverside";
 if ($section == 'logs')
-	$sql="SELECT t.id, t.date, s.name, t.reference, t.step, t.description  from tlog t join savings_group s on s.groupid = t.groupid  /*order by t.date desc*/";
+	$sql="SELECT t.id, t.date, s.name, t.reference, t.step, t.description  from tlog t join savings_group s on s.groupid = t.groupid  ";
 if ($section == 'transactions')
-	$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.account, t.service,t.reference, t.amount, t.tstatus, t.lang, s.name from transactions t join savings_group s on s.groupid = t.groupid /* order by fulltimestamp desc*/";
+	$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.account, t.service,t.reference, t.amount, t.tstatus, t.lang, s.name from transactions t join savings_group s on s.groupid = t.groupid ";
 if ($section == 'accountstatement')
-	$sql="SELECT t.id,  t.msisdn, t.transtype, t.reference, t.service, t.amount, t.triggeredby, t.obal,t.cbal, s.name from ledger_savings t join savings_group s on s.groupid = t.groupid  /*order by t.fulltimestamp desc*/ ";
+	$sql="SELECT t.id,  t.msisdn, t.transtype, t.reference, t.service, t.amount, t.triggeredby, t.obal,t.cbal, s.name from ledger_savings t join savings_group s on s.groupid = t.groupid   ";
 if ($section == 'loanstatement')
-	$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.transtype, t.reference, t.service, t.principal, t.charge, t.pricipal_obal,t.principal_cbal, t.charge_obal,t.charge_cbal, s.name from ledger_loan t join savings_group s on s.groupid = t.groupid /*order by t.fulltimestamp desc*/";
-
+	$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.transtype, t.reference, t.service, t.principal, t.charge, t.pricipal_obal,t.principal_cbal, t.charge_obal,t.charge_cbal, s.name from ledger_loan t join savings_group s on s.groupid = t.groupid ";
+if ($section == 'cashout')
+	$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.transid, t.serial, t.utilitytype, t.amount, t.status, t.message from cashout t ";
+if ($section == 'shareout') {
+	$sql = "SELECT t.id, t.fulltimestamp, t.msisdn, t.userfee, t.total_shareout, t.totalsavings, t.income, t.avg_balance, t.sum_avg_balance, s.name from shareout t join savings_group s on s.groupid = t.groupid ";
+	$where = "t.msisdn not like '%GLINCOME01%'";
+}
+if ($section == 'savingsgroup')
+	$sql="SELECT id, fulltimestamp, min_payin, max_payin, meeting_open_status, last_meeting_close_time, max_loan_duration, cycle_counter, meetings_remaining,  meetings_remaining_seton, savings_total, savings_since_last_meeting, loan_outstanding_total, interest_collected, name  from savings_group ";
+if ($section == 'servicemsg' )
+	$sql="SELECT id, service, description, errorcode,recipient,en_msg, sw_msg from service_message ";
+if ($section == 'servicedesc' )
+	$sql="SELECT * from service_desc ";
+if ($section == 'settings' )
+	$sql="SELECT  id, setting, sgroup, value, tstatus, creator, modifier, authorizer, astatus, rtimestamp, uid from settings ";
 
 $query=mysqli_query($conn, $sql) or die(mysqli_error($conn).' '.$sql);
 $totalData = mysqli_num_rows($query);
@@ -50,31 +65,79 @@ $totalFiltered = $totalData;  // when there is no search parameter then total nu
 
 $sql = "SELECT first_name, last_name, email, gender, ip_address ";
 $sql.=" FROM serverside";
-if ($section == 'logs')
-	$sql="SELECT t.id, t.date, s.name, t.reference, t.step, t.description  from tlog t join savings_group s on s.groupid = t.groupid /* order by t.date desc*/";
-if ($section == 'transactions')
-	$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.account, t.service,t.reference, t.amount, t.tstatus, t.lang, s.name from transactions t join savings_group s on s.groupid = t.groupid /* order by fulltimestamp desc*/";
-if ($section == 'accountstatement')
-	$sql="SELECT t.id, t.msisdn, t.transtype, t.reference, t.service, t.amount, t.triggeredby, t.obal,t.cbal, s.name from ledger_savings t join savings_group s on s.groupid = t.groupid  /*order by t.fulltimestamp desc*/ ";
-if ($section == 'loanstatement')
-	$query="SELECT t.id, t.fulltimestamp, t.msisdn, t.transtype, t.reference, t.service, t.principal, t.charge, t.pricipal_obal,t.principal_cbal, t.charge_obal,t.charge_cbal, s.name from ledger_loan t join savings_group s on s.groupid = t.groupid  /*order by t.fulltimestamp desc*/";
+if ($section == 'logs'){
+	$where = ' 1 ';
+	$sql="SELECT t.id, t.date, s.name, t.reference, t.step, t.description  from tlog t join savings_group s on s.groupid = t.groupid ";
+}
+
+if ($section == 'transactions'){
+	$where = ' 1 ';
+	$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.account, t.service,t.reference, t.amount, t.tstatus, t.lang, s.name from transactions t join savings_group s on s.groupid = t.groupid ";
+
+}
+	if ($section == 'accountstatement'){
+		$where = ' 1 ';
+		$sql="SELECT t.id, t.msisdn, t.transtype, t.reference, t.service, t.amount, t.triggeredby, t.obal,t.cbal, s.name from ledger_savings t join savings_group s on s.groupid = t.groupid   ";
+
+	}
+	if ($section == 'loanstatement'){
+		$where = ' 1 ';
+		$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.transtype, t.reference, t.service, t.principal, t.charge, t.pricipal_obal,t.principal_cbal, t.charge_obal,t.charge_cbal, s.name from ledger_loan t join savings_group s on s.groupid = t.groupid  ";
+
+	}
+	if ($section == 'cashout'){
+		$where = ' 1 ';
+		$sql="SELECT t.id, t.fulltimestamp, t.msisdn, t.transid, t.serial, t.utilitytype, t.amount, t.status, t.message from cashout t   ";
+
+	}
+	if ($section == 'shareout') {
+	$sql = "SELECT t.id, t.fulltimestamp, t.msisdn, t.userfee, t.total_shareout, t.totalsavings, t.income, t.avg_balance, t.sum_avg_balance, s.name from shareout t join savings_group s on s.groupid = t.groupid ";
+	$where = "t.msisdn not like '%GLINCOME01%'";
+}
+if ($section == 'savingsgroup'){
+	$where = ' 1 ';
+	$sql="SELECT id, fulltimestamp, min_payin, max_payin, meeting_open_status, last_meeting_close_time, max_loan_duration, cycle_counter,
+meetings_remaining,  meetings_remaining_seton, savings_total, savings_since_last_meeting, loan_outstanding_total, interest_collected, name  from savings_group ";
+
+}
+if ($section == 'servicemsg' ){
+	$where = ' 1 ';
+	$sql="SELECT id, service, description, errorcode,recipient,en_msg, sw_msg from service_message ";
+}
+if ($section == 'servicedesc' ){
+	$where = ' 1 ';
+	$sql="SELECT  id, service, service_en, service_sw from service_desc ";
+}
+if ($section == 'settings' ){
+	$where = ' 1 ';
+	$sql="SELECT  id, setting, sgroup, value, tstatus, creator, modifier, authorizer, astatus, rtimestamp, uid from settings ";
+}
 
 
+
+
+//because field names are different in sql statement, you need to explode else search will not work
+$exp=explode('SELECT',$sql);
+$exp2 = explode('from', $exp[1]);
+$q_cols = explode(',', $exp2[0]);
+//print_r($q_cols);
+$where = " where " . $where;
 if( !empty($requestData['search']['value']) ) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
-	$sql.=" where (".$columns[0]." LIKE '".$requestData['search']['value']."%' ";
-	foreach($cols as $col)
-		$sql .= "OR ". $col . " LIKE '" . $requestData['search']['value']."%' ";
+	$where.=" AND (".$q_cols[0]." LIKE '".$requestData['search']['value']."%' ";
+	foreach($q_cols as $col)
+		$where .= "OR ". $col . " LIKE '" . $requestData['search']['value']."%' ";
+	//$where .= ' AND ' ;
 	/*$sql.=" OR first_name LIKE '".$requestData['search']['value']."%' ";
 	$sql.=" OR email LIKE '".$requestData['search']['value']."%' ";
 	$sql.=" OR gender LIKE '".$requestData['search']['value']."%' ";
 	$sql.=" OR ip_address LIKE '".$requestData['search']['value']."%' )";
 	*/
-	$sql.="  )";
+	$where.="  )";
 }
 
 $query=mysqli_query($conn, $sql) or die(mysqli_error($conn).' '.$sql);
 $totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result. 
-$sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
+$sql.= $where . " ORDER BY ". $q_cols[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
 /* $requestData['order'][0]['column'] contains colmun index, $requestData['order'][0]['dir'] contains order such as asc/desc  */
 $query=mysqli_query($conn, $sql) or die(mysqli_error($conn).' '.$sql);
 $rows = array();

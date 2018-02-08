@@ -1,30 +1,21 @@
 jQuery(function($) {
     //initiate dataTables plugin
     var section = $('#section').html();
-    //console.log(section);
+    var columns = 'id, fulltimestamp, msisdn, transid, serial, utilitytype, amount, status, message';
     var myTable =
         $('#dynamic-table').DataTable( {
-            //serverSide: true,
+            "processing": true,
+            "serverSide": true,
+
             bAutoWidth: false,
             ajax: {
-                url: 'ajax/getItem.php',
-                type: 'GET',
+                url: 'ajax/getServerSide.php',
+                type: 'POST',
                 dataType: 'json',
-                data: {section:section}
+                data: {section:section, columns:columns}
             },
 
-            "columns": [
-                { "data": "id" },
-                { "data": "fulltimestamp" },
-                { "data": "msisdn" },
-                { "data": "transid" },
-                { "data": "serial" },
-                { "data": "utilitytype" },
-                { "data": "amount" },
-                { "data": "status" },
-                { "data": "message" }
 
-            ],
             "dom": '<"toolbar">frtip'
         } );
     $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');

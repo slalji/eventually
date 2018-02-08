@@ -1,9 +1,18 @@
 $(document).ready(function() {
     var section = $('#section').html();
+    var columns ='$sql="id, setting, sgroup, value, tstatus, creator, modifier, authorizer, astatus, rtimestamp, uid ';
     $.ajax({
-        type: 'GET',
-        url: 'ajax/getService',
-        data:{section:'settings'},
+        "processing": true,
+        "serverSide": true,
+        "order": [[ 1, 'asc' ]],
+
+        bAutoWidth: false,
+        ajax: {
+            url: 'ajax/getServerSide.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {section:section, columns:columns}
+        },
         success: function(data) {
 
             var obj = jQuery.parseJSON(data);

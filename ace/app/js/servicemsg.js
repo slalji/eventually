@@ -1,9 +1,19 @@
 $(document).ready(function() {
     var section = $('#section').html();
+    var columns ='id, service, description, errorcode,recipient,en_msg, sw_msg';
+
     $.ajax({
-        type: 'GET',
-        url: 'ajax/getService',
-        data:{section:'servicemsg'},
+        "processing": true,
+        "serverSide": true,
+        "order": [[ 1, 'desc' ]],
+
+        bAutoWidth: false,
+        ajax: {
+            url: 'ajax/getServerSide.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {section:section, columns:columns}
+        },
         success: function(data) {
 
             var obj = jQuery.parseJSON(data);

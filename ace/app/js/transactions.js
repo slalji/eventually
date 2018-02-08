@@ -11,17 +11,14 @@ jQuery(function($) {
         $('#dynamic-table').DataTable( {
             "processing": true,
             "serverSide": true,
+            "order": [[ 1, 'desc' ]],
 
-
-
+            bAutoWidth: false,
             ajax: {
                 url: "ajax/getServerSide.php", // json datasource
                 data: {section: section, columns: columns},
-                type: "post",  // method  , by default get
-                error: function (xhr, textStatus, errorThrown) {
+                type: "post"  // method  , by default get
 
-                    $('#error').html("Err"+JSON.stringify(xhr));
-                }
             },
             "dom": '<"toolbar">frtip'
         } );
