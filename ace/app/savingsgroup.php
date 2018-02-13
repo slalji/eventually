@@ -16,28 +16,20 @@
             <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th xclass="detail-col hidden">ID</th>
+                    <th  >ID</th>
                     <th>Date</th>
-
-
                     <th>Min Payin</th>
                     <th>Max Payin</th>
                     <th>Meeting Open Status</th>
                     <th>Last Meeting Close Time</th>
                     <th>Max Loan Duration</th>
                     <th>Cycle Counter</th>
-                    <th>Total Meetings in Cycle</th>
                     <th>Meetings Remaining</th>
                     <th>Meetings Remaining Seton</th>
-                    <th>Savings Total</th>
                     <th>Savings Since Last Meeting</th>
-                    <th>Repayment Since Last Meeting</th>
-                    <th>Loan Outstanding Total</th>
                     <th>Interest Collected</th>
                     <th>Group</th>
-
-
-
+                   
                 </tr>
                 </thead>
 

@@ -12,7 +12,7 @@ $email = $user_info['email'];//$usr->getEmail($_SESSION['token']);
 $fullname = $user_info['fullname'];//$usr->getFullname($_SESSION['token']);
 $lastlogin = $user_info['lastlogin'];//$usr->getLastlogin($_SESSION['token']);
 $joined = $user_info['joined'];
-$interval = $user_info['expiry'];
+$interval = $user_info['expiry_interval'];
 $_SESSION['fullname']=$fullname;
 
 ?>

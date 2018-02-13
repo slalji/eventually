@@ -52,8 +52,8 @@ if (isset($_POST['email']))
 				$err=array();
 				$err = $usr->checkemail();
 
-				if ($err) {
-					//else {
+				if (isset($err)) {
+					
 					foreach ($err as $msg) {
 						echo '<br><span class="message failure" style="opacity: 1">*', $msg . '</span>';
 					}

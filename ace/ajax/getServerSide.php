@@ -22,16 +22,7 @@ $orderby='';
 foreach($cols as $col){
 	$columns[]=$col;
 }
-/*$columns = array(
-// datatable column index  => database column name
-	0 =>'first_name',
-	1 =>'last_name',
-	2 => 'email',
-	3 =>'gender',
-	4=> 'ip_address'
 
-);
-*/
 // getting total number records without any search
 $sql = "SELECT first_name, last_name, email, gender, ip_address ";
 $sql.=" FROM serverside";
@@ -50,7 +41,7 @@ if ($section == 'shareout') {
 	$where = "t.msisdn not like '%GLINCOME01%'";
 }
 if ($section == 'savingsgroup')
-	$sql="SELECT id, fulltimestamp, min_payin, max_payin, meeting_open_status, last_meeting_close_time, max_loan_duration, cycle_counter, meetings_remaining,  meetings_remaining_seton, savings_total, savings_since_last_meeting, loan_outstanding_total, interest_collected, name  from savings_group ";
+	$sql="SELECT ". $_REQUEST['columns'] ."   from savings_group ";
 if ($section == 'servicemsg' )
 	$sql="SELECT id, service, description, errorcode,recipient,en_msg, sw_msg from service_message ";
 if ($section == 'servicedesc' )
@@ -96,8 +87,7 @@ if ($section == 'transactions'){
 }
 if ($section == 'savingsgroup'){
 	$where = ' 1 ';
-	$sql="SELECT id, fulltimestamp, min_payin, max_payin, meeting_open_status, last_meeting_close_time, max_loan_duration, cycle_counter,
-meetings_remaining,  meetings_remaining_seton, savings_total, savings_since_last_meeting, loan_outstanding_total, interest_collected, name  from savings_group ";
+	$sql="SELECT ". $_REQUEST['columns'] ."  from savings_group ";
 
 }
 if ($section == 'servicemsg' ){
@@ -145,7 +135,10 @@ $data = array();
 while( $rows=mysqli_fetch_assoc($query) ) {  // preparing an array
 	$nestedData=array();
 foreach($rows as $row)
-	$nestedData[] = $row;
+	if ( $row == null)
+		$nestedData[] = '';
+	else
+		$nestedData[] = $row;
 	/*$nestedData[] = $row["first_name"];
 	$nestedData[] = $row["last_name"];
 	$nestedData[] = $row["email"];

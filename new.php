@@ -19,6 +19,8 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 	$email = '';
 	$errmsg_arr = array();
 
+	
+
 	if (isset($_REQUEST['email'])) $email = stripslashes(strip_tags($_REQUEST['email']));
 	if (isset($_REQUEST['temppass'])) $temp = $_REQUEST['temppass'];
 	if (isset($_REQUEST['password'])) $password = $_REQUEST['password'];
@@ -31,6 +33,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 	$messages= null;
 	$error = ($usr->checkNewPassword($_REQUEST));
 	//echo '<div class="message failure" style=opacity:1> ';
+	//
 	if ($err == 'null')
 		 $messages[] = 'Invalid Email Address ';
 
@@ -38,10 +41,13 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 
 	foreach ($error as $err)
 		 $messages[]  = $err ;
-	if(!$messages){
-
-		echo "Successfully updated";
+	
+	if(!$messages && $usr->addNewPassword() == 'db updated'){
+		 echo "Successfully updated";
 		header('location:index.php');
+		 
+		
+		
 
 	}
 
