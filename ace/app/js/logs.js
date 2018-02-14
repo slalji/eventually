@@ -29,7 +29,7 @@ jQuery(function($) {
                     {"data": "step"}
 
                 ],
-                "dom": '<"toolbar">frtip'
+                "dom": '<"toolbar">lfrtip'
             }
 
             } );

@@ -28,7 +28,7 @@ jQuery(function($) {
                 { "data": "ip_address" }
 
             ],
-            "dom": '<"toolbar">frtip'
+            "dom": '<"toolbar">lfrtip'
         } );
     $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');
 
