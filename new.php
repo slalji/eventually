@@ -107,8 +107,10 @@ else{
 </div>
 
 <p>
+
 <!-- Signup Form -->
 <form id="theForm" method="post" action="new.php">
+
 	<input type="email" id="email"  autofocus name="email"  placeholder="Email address" value="<?php echo $email?>" />
 	<input type="password" id="temppass"  autofocus name="temppass"  placeholder="Temporary password" value="" />
 	<input type="password" id="newpass"  autofocus name="newpass"  placeholder="New Password" value="" class="new" />

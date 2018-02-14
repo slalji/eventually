@@ -43,11 +43,11 @@ if ($section == 'shareout') {
 if ($section == 'savingsgroup')
 	$sql="SELECT ". $_REQUEST['columns'] ."   from savings_group ";
 if ($section == 'servicemsg' )
-	$sql="SELECT id, service, description, errorcode,recipient,en_msg, sw_msg from service_message ";
+	$sql="SELECT". $_REQUEST['columns'] ."  from service_message ";
 if ($section == 'servicedesc' )
-	$sql="SELECT * from service_desc ";
+	$sql="SELECT ". $_REQUEST['columns'] ."  from service_desc ";
 if ($section == 'settings' )
-	$sql="SELECT  id, setting, sgroup, value, tstatus, creator, modifier, authorizer, astatus, rtimestamp, uid from settings ";
+	$sql="SELECT  ". $_REQUEST['columns'] ."  from settings ";
 
 $query=mysqli_query($conn, $sql) or die(mysqli_error($conn).' '.$sql);
 $totalData = mysqli_num_rows($query);
@@ -92,15 +92,15 @@ if ($section == 'savingsgroup'){
 }
 if ($section == 'servicemsg' ){
 	$where = ' 1 ';
-	$sql="SELECT id, service, description, errorcode,recipient,en_msg, sw_msg from service_message ";
+	$sql="SELECT ". $_REQUEST['columns'] ."  from service_message ";
 }
 if ($section == 'servicedesc' ){
 	$where = ' 1 ';
-	$sql="SELECT  id, service, service_en, service_sw from service_desc ";
+	$sql="SELECT ". $_REQUEST['columns'] ." from service_desc ";
 }
 if ($section == 'settings' ){
 	$where = ' 1 ';
-	$sql="SELECT  id, setting, sgroup, value, tstatus, creator, modifier, authorizer, astatus, rtimestamp, uid from settings ";
+	$sql="SELECT  ". $_REQUEST['columns'] ."  from settings ";
 }
 
 
@@ -112,6 +112,13 @@ $exp2 = explode('from', $exp[1]);
 $q_cols = explode(',', $exp2[0]);
 //print_r($q_cols);
 $where = " where " . $where;
+if( !empty($requestData['columns'][0]['search']['value']) ){ 
+    $range = explode('|', $requestData['columns'][0]['search']['value']); 
+    $start = trim($range[0]); //name
+    $end = trim($range[1]); //name
+    $where.=" AND fulltimestamp >= '".$start."' AND fulltimestamp <= ('" .$end. "' + INTERVAL 1 DAY) ";
+}
+
 if( !empty($requestData['search']['value']) ) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
 	$where.=" AND (".$q_cols[0]." LIKE '".$requestData['search']['value']."%' ";
 	foreach($q_cols as $col)
