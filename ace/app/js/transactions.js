@@ -24,7 +24,8 @@ jQuery(function($) {
         } );
     $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');
 
-
+    if ($('#date-text').innerHTML !== ''){
+    
     //$('#my-table_filter').hide();
 
     $.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
@@ -45,8 +46,31 @@ jQuery(function($) {
             },
             {
                 "extend": "csv",
-                "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to CSV</span>",
-                "className": "btn btn-white btn-primary btn-bold"
+                "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden' id=export>Export to CSV "+ $('#date-text').innerHTML+"</span>",
+                "className": "btn btn-white btn-primary btn-bold",
+                "action": function (e, dt, node, config)
+                {
+                   var searchthis = $('#date-text').html();
+                  $.ajax({
+                    "url": "ajax/download.php",
+                    "data":{data:searchthis, section: section, columns: columns},
+                    "type":"post",
+                    "success": function(res, status, xhr) {
+                        $('#loading').html('');
+                         // document.location.href ="ajax/download.php";
+                         var csvData = new Blob([res], {type: 'text/csv;charset=utf-8;'});
+                                     var csvURL = window.URL.createObjectURL(csvData);
+                                     var tempLink = document.createElement('a');
+                                     tempLink.href = csvURL;
+                                     tempLink.setAttribute('download', 'export.csv');
+                                     tempLink.click();
+                                     
+                      },
+                      "error": function(res, status, xhr) {
+                         alert('Err:' ); 
+                      }
+                  }); 
+                }
             },
             {
                 "extend": "excel",
@@ -68,7 +92,7 @@ jQuery(function($) {
         ]
     } );
     myTable.buttons().container().appendTo( $('.tableTools-container') );
-
+    }
     //style the message box
     var defaultCopyAction = myTable.button(1).action();
     myTable.button(1).action(function (e, dt, button, config) {
@@ -135,8 +159,8 @@ jQuery(function($) {
 
         $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
         document.getElementById('date-text').innerHTML = start +' - ' + end;
-
         myTable.draw();
+       
     });
 
     $("#reportrange").on('cancel.daterangepicker', function(ev, picker) {
