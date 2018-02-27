@@ -73,14 +73,14 @@ $page_title = ['clientside'=>'Client Side','serverside'=>'Server Side','profile'
 			}
 		}
 
-		@keyframes fadeinbg {
+		/*@keyframes fadeinbg {
 			from {
 				background-image: none;
 			}
 			to {
 				background:url('body.png') no-repeat;
 			}
-		}
+		}*/
 
 		.main-content {
 			animation: fadein 2s;
@@ -93,5 +93,6 @@ $page_title = ['clientside'=>'Client Side','serverside'=>'Server Side','profile'
 		<script>
 			<?php include "app/js/".$page.".js"; ?>
 		</script>
+		
 	</body>
 </html>

@@ -17,11 +17,12 @@
                 <thead>
                 <tr>
 
-                    <th></th>
+                   
                     <th xclass="detail-col hidden">ID</th>
                     <th>Setting</th>
                     <th class="hidden-480">Sub Group</th>
                     <th>Value Id</th>
+                    <th></th>
 
 
                 </tr>

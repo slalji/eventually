@@ -17,7 +17,7 @@
                 <thead>
                 <tr>
 
-                    <th></th>
+                    
                     <th xclass="detail-col hidden">ID</th>
                     <th>Service</th>
                     <th class="hidden-480">Description</th>
@@ -25,6 +25,7 @@
                     <th>Recipient</th>
                     <th>Engish Msg</th>
                     <th>Swahili Msg</th>
+                    <th></th>
 
                 </tr>
                 </thead>

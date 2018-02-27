@@ -17,11 +17,12 @@
                 <thead>
                 <tr>
 
-                    <th></th>
+                    
                     <th xclass="detail-col hidden">ID</th>
                     <th>Service</th>
                     <th class="hidden-480">Service English</th>
                     <th>Service Swahili</th>
+                    <th></th>
 
 
                 </tr>

@@ -13,7 +13,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname) or die("Conne
 // storing  request (ie, get/post) global array to a variable  
 $requestData= $_REQUEST;
 //var_dump($_REQUEST);
-$cols = explode(',',$_REQUEST['columns']);
+$cols = explode(',',$_REQUEST['cols']);
 $columns = array();
 $section = $_REQUEST['section'];
 $where = '';
@@ -41,13 +41,13 @@ if ($section == 'shareout') {
 	$where = "t.msisdn not like '%GLINCOME01%'";
 }
 if ($section == 'savingsgroup')
-	$sql="SELECT ". $_REQUEST['columns'] ."   from savings_group ";
+	$sql="SELECT ". $_REQUEST['cols'] ."   from savings_group ";
 if ($section == 'servicemsg' )
-	$sql="SELECT". $_REQUEST['columns'] ."  from service_message ";
+	$sql="SELECT ". $_REQUEST['cols'] ."  from service_message ";
 if ($section == 'servicedesc' )
-	$sql="SELECT ". $_REQUEST['columns'] ."  from service_desc ";
+	$sql="SELECT ". $_REQUEST['cols'] ."  from service_desc ";
 if ($section == 'settings' )
-	$sql="SELECT  ". $_REQUEST['columns'] ."  from settings ";
+	$sql="SELECT  ". $_REQUEST['cols'] ."  from settings ";
 
 $query=mysqli_query($conn, $sql) or die(mysqli_error($conn).' '.$sql);
 $totalData = mysqli_num_rows($query);
@@ -87,20 +87,20 @@ if ($section == 'transactions'){
 }
 if ($section == 'savingsgroup'){
 	$where = ' 1 ';
-	$sql="SELECT ". $_REQUEST['columns'] ."  from savings_group ";
+	$sql="SELECT ". $_REQUEST['cols'] ."  from savings_group ";
 
 }
 if ($section == 'servicemsg' ){
 	$where = ' 1 ';
-	$sql="SELECT ". $_REQUEST['columns'] ."  from service_message ";
+	$sql="SELECT ". $_REQUEST['cols'] ."  from service_message ";
 }
 if ($section == 'servicedesc' ){
 	$where = ' 1 ';
-	$sql="SELECT ". $_REQUEST['columns'] ." from service_desc ";
+	$sql="SELECT ". $_REQUEST['cols'] ." from service_desc ";
 }
 if ($section == 'settings' ){
 	$where = ' 1 ';
-	$sql="SELECT  ". $_REQUEST['columns'] ."  from settings ";
+	$sql="SELECT  ". $_REQUEST['cols'] ."  from settings ";
 }
 
 
@@ -110,25 +110,20 @@ if ($section == 'settings' ){
 $exp=explode('SELECT',$sql);
 $exp2 = explode('from', $exp[1]);
 $q_cols = explode(',', $exp2[0]);
-//print_r($q_cols);
+//print_r($requestData);
 $where = " where " . $where;
 if( !empty($requestData['columns'][0]['search']['value']) ){ 
     $range = explode('|', $requestData['columns'][0]['search']['value']); 
     $start = trim($range[0]); //name
     $end = trim($range[1]); //name
-    $where.=" AND fulltimestamp >= '".$start."' AND fulltimestamp <= ('" .$end. "' + INTERVAL 1 DAY) ";
+    $where.=" AND t.fulltimestamp >= '".$start."' AND t.fulltimestamp <= ('" .$end. "' + INTERVAL 1 DAY) ";
 }
 
 if( !empty($requestData['search']['value']) ) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
 	$where.=" AND (".$q_cols[0]." LIKE '".$requestData['search']['value']."%' ";
 	foreach($q_cols as $col)
 		$where .= "OR ". $col . " LIKE '" . $requestData['search']['value']."%' ";
-	//$where .= ' AND ' ;
-	/*$sql.=" OR first_name LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR email LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR gender LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR ip_address LIKE '".$requestData['search']['value']."%' )";
-	*/
+ 
 	$where.="  )";
 }
 
@@ -146,11 +141,7 @@ foreach($rows as $row)
 		$nestedData[] = '';
 	else
 		$nestedData[] = $row;
-	/*$nestedData[] = $row["first_name"];
-	$nestedData[] = $row["last_name"];
-	$nestedData[] = $row["email"];
-	$nestedData[] = $row["gender"];
-	$nestedData[] = $row["ip_address"];*/
+ 
 
 	$data[] = $nestedData;
 }
