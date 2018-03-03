@@ -1,5 +1,17 @@
-<?php include "class/C_summary.php";
+<?php include "class/summary.php";
 $d = new Summary();
+$d->weekly_report();
+
+
+
+
+
+
+
+
+
+
+
 ?>
 <!-- first panel-->
 <div class="col-lg-6 col-md-8">
@@ -10,14 +22,14 @@ $d = new Summary();
                 <!-- first panel-->
                 <div class="row" style="padding: 5px">
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-info">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-users fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php   echo $d->totalGroups();?></div>
+                                        <div class="huge"><?php   echo $d->getTotalGroups(); ?></div>
                                         <div>Total Groups</div>
                                     </div>
                                 </div>
@@ -26,14 +38,14 @@ $d = new Summary();
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-green">
+                        <div class="panel panel-success">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-calendar-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"> </div>
+                                        <div class="huge"><?php echo $d->getAvgGroupAgeInDays();?></div>
                                         <div>~ Age of group in <b class="badge">days</b></div>
 
                                     </div>
@@ -45,14 +57,14 @@ $d = new Summary();
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-yellow">
+                        <div class="panel panel-warning">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-user-secret fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php echo  $d->totalMembers();?></div>
+                                        <div class="huge"><?php echo $d->getTotalMembers();?></div>
                                         <div>Total Members</div>
                                     </div>
                                 </div>
@@ -65,15 +77,15 @@ $d = new Summary();
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-red">
+                        <div class="panel panel-danger">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-money fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"> </div>
-                                        <div>Pay-ins<span class="badge">TZS </span></div>
+                                        <div class="huge"><?php echo $d->getTotalPayIns(); ?></div>
+                                        <div>Pay-ins<span class="badge">TZS</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -90,8 +102,8 @@ $d = new Summary();
                                         <i class="fa fa-money fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php //echo $d->totalLoanRepayments();?></div>
-                                        <div>Loan repayments<span class="badge">TZS <?php  ?></span></div>
+                                        <div class="huge"><?php echo $d->getTotalRepayments();?></div>
+                                        <div>Loan repayments<span class="badge">TZS</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -109,8 +121,8 @@ $d = new Summary();
                                         <i class="fa fa-money fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"></div>
-                                        <div>Total funds available <span class="badge">TZS <?php echo $d->funds_available();?></span></div>
+                                        <div class="huge"><?php echo $d->getFundsAvailable();?></div>
+                                        <div>Total funds available <span class="badge">TZS </span></div>
                                     </div>
                                 </div>
                             </div>
@@ -136,15 +148,15 @@ $d = new Summary();
                 <!-- second panel-->
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-default">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-calendar fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"></div>
-                                        <div>Total loan balance outstanding	<span class="badge>">TZS </span> </div>
+                                        <div class="huge"><?php echo $d->getLoanBalanceOutstanding();?></div>
+                                        <div>Total loan balance outstanding	<span class="badge badge-info>">TZS </span> </div>
 
                                     </div>
                                 </div>
@@ -155,14 +167,14 @@ $d = new Summary();
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-green">
+                        <div class="panel panel-success">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-lock fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"></div>
+                                        <div class="huge"><?php echo $d->getAvgLoanAmount();?></div>
                                         <div>Average loan amount at issuance <span class="badge">TZS </span> </div>
                                     </div>
                                 </div>
@@ -173,14 +185,14 @@ $d = new Summary();
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-yellow">
+                        <div class="panel panel-warning">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-paper-plane-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"> </div>
+                                        <div class="huge"><?php echo $d->getTotalLoansDistributed();?> </div>
                                         <div>Total number of loans disbursed</div>
                                     </div>
                                 </div>
@@ -193,14 +205,14 @@ $d = new Summary();
                </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
-                        <div class="panel panel-red">
+                        <div class="panel panel-danger">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-times-circle-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"> </div>
+                                        <div class="huge"><?php echo $d->getTotalLoansOutstanding();?> </div>
                                         <div>Number of loans outstanding</div>
                                     </div>
                                 </div>
@@ -218,7 +230,7 @@ $d = new Summary();
                                         <i class="fa fa-calendar-plus-o fa-2x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?php echo $d->numLoanspastdue();?></div>
+                                        <div class="huge"><?php echo /*$d->numLoanspastdue();*/ $d->getLoansPastDue();?></div>
                                         <div>Number of loans past due</div>
                                     </div>
                                 </div>
@@ -235,8 +247,8 @@ $d = new Summary();
                                     <div class="col-xs-3">
                                         <i class="fa fa-percent fa-2x"></i>
                                     </div>
-                                    <div class="col-xs-9 text-right">TZS
-                                        <div class="huge"></div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $d->getAvgGroupInterestRate2wks();?></div>
                                         <div>Average group interest rate <span class="badge">per 2 weeks</span></div>
                                     </div>
                                 </div>

@@ -83,12 +83,12 @@ jQuery(function($) {
 
 
         ],
-        "dom": '<"toolbar">frtip' //NO DATE RANGE
+        "dom": '<"toolbar">lfrtip' //NO DATE RANGE
     } );
    }
    
     
-    $("div.toolbar").html('<div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');
+    $("div.toolbar").html('<div class="dataTables_length"></div><div id="reportrange" class="pull-left" style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>');
 
     if ($('#date-text').innerHTML !== ''){
     
