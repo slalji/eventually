@@ -14,8 +14,9 @@
         <div class="navbar-header pull-left">
             <a href="index.html" class="navbar-brand">
                 <small>
-                    <i class="fa fa-tree"></i>
-                    Boresha Maisha Admin
+                    <!--<i class="fa fa-tree"></i>-->
+                    <img src="../images/boresha.png" width="20">
+                    Boresha Maisha
                 </small>
             </a>
         </div>
@@ -49,7 +50,7 @@
                         </li>-->
 
                         <li>
-                            <a href="<?php echo $_SERVER['PHP_SELF']?>?page=profile"">
+                            <a href="<?php echo $_SERVER['PHP_SELF']?>?page=profile">
                                 <i class="ace-icon fa fa-user"></i>
                                 Profile
                             </a>
@@ -65,176 +66,215 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="../logout.php">
+                        <i class="ace-icon fa fa-sign-out"></i>
+                    </a>
+                </li>
             </ul>
         </div>
     </div><!-- /.navbar-container -->
 </div>
 
 <div class="main-container ace-save-state" id="main-container">
-    <script type="text/javascript">
-        try{ace.settings.loadState('main-container')}catch(e){}
-    </script>
+			<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+			</script>
 
-    <div id="sidebar" class="sidebar responsive  ace-save-state">
-        <script type="text/javascript">
-            try{ace.settings.loadState('sidebar')}catch(e){}
-        </script>
+			<div id="sidebar" class="sidebar responsive ace-save-state">
+				<script type="text/javascript">
+					try{ace.settings.loadState('sidebar')}catch(e){}
+				</script>
 
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+						<!--<button class="btn btn-success"><br> 
+							<!--<i class="ace-icon fa fa-list"></i> 
+						</button>
 
+						<button class="btn btn-info"><br> 
+							<!--
+							<i class="ace-icon fa fa-list-alt"></i> 
+						</button>
 
-        <ul class="nav nav-list" style="margin-top:-20px">
-            <li class="">
-                <a href="<?php echo $_SERVER['PHP_SELF']?>?page=dashboard">
-                    <i class="menu-icon fa fa-tachometer"></i>
-                    <span class="menu-text"> Dashboard </span>
-                </a>
+						<button class="btn btn-warning"><br> 
+							<!--
+							<i class="ace-icon fa fa-pencil-square-o"></i> 
+						</button>
 
-                <b class="arrow"></b>
-            </li>
+						<button class="btn btn-danger"><br> 
+							<!--
+							<i class="ace-icon fa fa-file"></i> 
+						</button>-->
+					</div>
 
+					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+						<span class="btn btn-success"></span>
 
-            <li class="active open">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-file-excel-o"></i>
-                    <span class="menu-text"> Statements </span>
+						<span class="btn btn-info"></span>
 
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
+						<span class="btn btn-warning"></span>
 
-                <b class="arrow"></b>
+						<span class="btn btn-danger"></span>
+					</div>
+				</div><!-- /.sidebar-shortcuts -->
 
-                <ul class="submenu">
-                    <li class="" name="transactions">
-                        <a href="<?php echo $_SERVER['PHP_SELF']?>?page=transactions" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Transactions
-                        </a>
+				<ul class="nav nav-list">
+					<li class="active">
+						<a href="<?php echo $_SERVER['PHP_SELF']?>?page=dashboard">
+							<i class="menu-icon fa fa-tachometer"></i>
+							<span class="menu-text"> Dashboard </span>
+						</a>
 
-                        <b class="arrow"></b>
-                    </li>
+						<b class="arrow"></b>
+					</li>
 
-                    <li class="" name="accountstatement">
-                        <a  href="<?php echo $_SERVER['PHP_SELF']?>?page=accountstatement" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Account Statement
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-                    <li class="" name="accountstatement">
-                        <a  href="<?php echo $_SERVER['PHP_SELF']?>?page=loanstatement" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Loan Statement
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="open" >
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-download"></i>
-                    <span class="menu-text"> Reports </span>
-
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
-                    <li class="" name="cashout" id="menu-item">
-
-                        <a href="<?php echo $_SERVER['PHP_SELF']?>?page=cashout">
-                            <i class="menu-icon fa fa-list-alt"></i>
-                            <span class="menu-text"> Cash Out </span>
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-                    <li  name="shareout">
-                        <a href="<?php echo $_SERVER['PHP_SELF']?>?page=shareout" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Share Out
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-                    <li  class="" name="savingsgroup">
-                        <a href="<?php echo $_SERVER['PHP_SELF']?>?page=savingsgroup" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Savings Group
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-                    <li  class="" name="logs">
-                        <a href="<?php echo $_SERVER['PHP_SELF']?>?page=logs" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Log (Transactions)
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                </ul>
-            </li>
-
-            <li class="open">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-pencil-square-o"></i>
+					<li class="active open">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-list"></i>
 							<span class="menu-text">
-								Edit Records
+								Transactions
 							</span>
 
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
 
-                <b class="arrow"></b>
+						<b class="arrow"></b>
 
+						<ul class="submenu">
+							
 
+							<li class="">
+								<a class="click-to-open" href="<?php echo $_SERVER['PHP_SELF']?>?page=transactions">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Daily Transactions
+								</a>
 
-                        <ul class="submenu">
-                            <li class="">
-                                <a href="<?php echo $_SERVER['PHP_SELF']?>?page=servicemsg">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Service Messages
-                                </a>
+								<b class="arrow"></b>
+							</li>
 
-                                <b class="arrow"></b>
+							<li class="">
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=accountstatement">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Account Statement
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=loanstatement">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Loan Statement
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+						
+						</ul>
+					</li>
+
+					<li class="active open">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-list-alt"></i>
+							<span class="menu-text"> Reports </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=cashout">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Cash Out
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=shareout">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Share Out
+								</a>
+
+								<b class="arrow"></b>
                             </li>
                             <li class="">
-                                <a href="<?php echo $_SERVER['PHP_SELF']?>?page=servicedesc">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Service Description
-                                </a>
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=savingsgroup">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Savings Group
+								</a>
 
-                                <b class="arrow"></b>
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+
+					<li class="active open">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-pencil-square-o"></i>
+							<span class="menu-text"> Maintenance </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=servicemsg">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Service Messages
+								</a>
+
+								<b class="arrow"></b>
                             </li>
                             <li class="">
-                                <a href="<?php echo $_SERVER['PHP_SELF']?>?page=settings">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Settings
-                                </a>
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=servicedesc">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Service Description
+								</a>
 
-                                <b class="arrow"></b>
+								<b class="arrow"></b>
                             </li>
+                            <li class="">
+								<a href="<?php echo $_SERVER['PHP_SELF']?>?page=settings">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Service Messages
+								</a>
 
+								<b class="arrow"></b>
+							</li>
+							 
+						</ul>
+					</li>
 
-                        </ul>
-                    </li>
+					
 
+					<li class="active open">
+						<a href="<?php echo $_SERVER['PHP_SELF']?>?page=logs">
+							<i class="menu-icon fa fa-file"></i>
 
-                </ul>
-            </li>
+							<span class="menu-text">
+								Audit Trail
 
+								<!--<span class="badge badge-transparent tooltip-error" title="2 Important Events">
+									<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
+								</span>-->
+							</span>
+						</a>
 
+						<b class="arrow"></b>
+					</li>
 
+				
+				</ul><!-- /.nav-list -->
 
-
-        </ul><!-- /.nav-list -->
-
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-        </div>
-    </div>
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+			</div>

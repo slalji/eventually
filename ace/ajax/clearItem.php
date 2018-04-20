@@ -1,5 +1,5 @@
 <?php 
-require_once '../includes/db.php';
+require_once '../../config.php';
 
 	$query = "DELETE FROM shop WHERE status = 2";
 	$result = $mysqli->query($query) or die($mysqli->error.__LINE__);

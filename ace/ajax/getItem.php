@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/db.php'; // The mysql database connection script
+require_once '../config.php'; // The mysql database connection script
 $filter = '';
 $where = '';
 $section ='';

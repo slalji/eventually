@@ -12,38 +12,29 @@ $_SESSION = array();
  * Inviation code ensure only those that got email with that secrete password can register
  */
 	include("config.php");
-        include("class/user.php");
+    include("class/user.php");
   // 
 
-    if( isset( $_POST['email'] )  ) {
+    if( isset( $_POST['username']) && isset($_POST['password']) ) {
 
 	$usr = new Users;
-	$usr->storeFormValues( $_POST );
-
-
-        $data = $usr->userLogin();
-
-        if ($data == false){
+    $usr->storeFormValues( $_POST );  
+  
+    $data = $usr->userLogin();
+   //die(print_r($data));
+        if (!$data){
             header('location:index.php?err=1');
-            }
+        }
+       
 
         $token = uniqid();
-        //die(var_dump($data));
+       
         if (!isset($data['firsttime'])) {
             //
             header('location:index.php?err=1');
         }
         else if ($data['firsttime'] == 'true') {
-           // var_dump('First Time! ' . $data);
-            $_SESSION["authenticated"] = 'true';
-            $_SESSION["fullname"] = $data['fullname'];
-            $_SESSION["joined"] = $data['joined'];
-            $_SESSION["email"] = $data['email'];
-            $_SESSION["firsttime"] = $data['firsttime'];
-            $_SESSION["interval"] = $data['expiry'];
-            $_SESSION["token"] = $token;
-            //session_destroy();
-            header('location:new.php');
+           header('location:new.php');
         }
         else if ($data['firsttime'] == 'false'){
 
@@ -52,22 +43,20 @@ $_SESSION = array();
             $_SESSION['token']=$token;
             $_SESSION['firsttime']='false';
             $_SESSION["joined"] = $data['joined'];
-            $_SESSION["interval"] = $data['expiry'];
-            $usr->updateToken($token); //lastlogin changed to current
-           //die($usr->updateCurrentlogin($token));
-            if (date('Y-m-d') >= $usr->getExpiryDate($token))
-                header('location:expired.php');
-            else {
-                //die(var_dump($data));
-                header('location:ace/');}
-        }
-
-
-
-
-
-
+            /*if (isset($data['interval']) && $data['interval'] > 0)
+                $_SESSION["interval"] = $data['expiry'];
+            $expiry_date = $usr->getExpiryDate($token);
+            */
+            $usr->updateToken($token); 
+            //die(print_r($expiry_date));
+            
+                header('location:ace/');
+            }
     }
+    else 
+    //var_dump($_POST); 
+    header('location:login2.php?err=1');
+    
     
         
        

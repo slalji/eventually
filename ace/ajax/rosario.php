@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/db.php'; // The mysql database connection script
+require_once '../config.php'; // The mysql database connection script
 
 function fundsAvailable($groupid){
 $querys = "SELECT SUM(totalsavings) FROM cbsg_account WHERE statuscode!='D' AND groupid='$groupid'";

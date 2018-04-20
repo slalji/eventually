@@ -5,6 +5,7 @@
 */
 
 (function() {
+	//alert($('code').html());
 
 	"use strict";
 

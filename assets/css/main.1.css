@@ -102,7 +102,7 @@
 		-webkit-justify-content: center;
 		-ms-justify-content: center;
 		justify-content: center;
-		background-color:#1cb495;
+		background-color:#1cb495;/*#000;*/
 		padding: 6em 4em 4em 4em;
 	}
 
@@ -345,13 +345,13 @@
 		-ms-transition: border-bottom-color 0.2s ease, color 0.2s ease;
 		transition: border-bottom-color 0.2s ease, color 0.2s ease;
 		border-bottom: dotted 1px rgba(255, 255, 255, 0.25);
-		color: #025a48; 
+		color: #025a48;/*#a7f8e8;*/
 		text-decoration: none;
 	}
 
 		a:hover {
 			border-bottom-color: transparent;
-			color: #025a48 !important; 
+			color: #025a48;/*#1cb495 !important;*/
 			text-decoration: none;
 		}
 
@@ -628,7 +628,7 @@
 			}
 
 			.message.success {
-				color:#025a48;
+				color:#025a48/* #1cb495*/;
 			}
 
 				.message.success:before {
@@ -790,7 +790,7 @@
 			-ms-animation: focus 0.1s;
 			animation: focus 0.1s;
 			background-color: rgba(255, 255, 255, 0.125);
-			border-color: #025a48; 
+			border-color: #025a48;/*#1cb495;*/
 		}
 
 	.select-wrapper {

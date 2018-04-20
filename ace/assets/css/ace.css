@@ -1550,7 +1550,7 @@ pre.prettyprint {
     }
     .ace-nav>li.dropdown-modal.open:before {
         background-color: #000;
-        opacity: .5;
+        xopacity: .5;
         border-width: 0;
         position: fixed;
         left: 0;
@@ -1731,7 +1731,7 @@ pre.prettyprint {
 }
 
 .user-info {
-    max-width: 100px;
+    xmax-width: 100px;
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2040,7 +2040,7 @@ pre.prettyprint {
     .navbar .navbar-nav .dropdown-menu>li>a:hover {
         background-color: rgba(0, 0, 0, .07)!important
     }
-    .navbar .navbar-nav .dropdown-hover>.dropdown-menu {
+    .navbar .navbar-nav .dropdown->.dropdown-menu {
         left: 32px!important;
         right: auto!important;
         top: auto!important;
@@ -2437,7 +2437,7 @@ no_such_element:-o-prefocus {
     position: absolute;
     top: 9px;
     right: 10px;
-    opacity: .88;
+    xopacity: .88;
     font-size: 12px;
     padding-left: 6px;
     padding-right: 6px
@@ -2456,7 +2456,7 @@ no_such_element:-o-prefocus {
 
 .nav-list li:hover>a .badge,
 .nav-list li:hover>a .label {
-    opacity: 1
+     opacity: 1
 }
 
 .nav-list .submenu .submenu a .badge,

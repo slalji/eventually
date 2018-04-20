@@ -16,8 +16,6 @@ $(document).ready(function() {
                 window.setTimeout(function () {
                     $("#message").hide();
                     $("#myModal").modal("hide");
-
-
                 }, 2000);
                 window.location.reload();
             },
@@ -46,7 +44,7 @@ jQuery(function($) {
         //console.log('rowId '+rowId);
         $.ajax({
             url: 'ajax/getServiceItem.php',
-            type: 'GET',
+            type: 'POST',
             dataType: 'json',
             data: {section:section,id:rowId},
             success: function(obj) {

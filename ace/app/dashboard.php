@@ -1,17 +1,6 @@
 <?php include "class/summary.php";
 $d = new Summary();
 $d->weekly_report();
-
-
-
-
-
-
-
-
-
-
-
 ?>
 <!-- first panel-->
 <div class="col-lg-6 col-md-8">
@@ -264,7 +253,7 @@ $d->weekly_report();
 
     </div>
 </div>
-<!-- second panel-->
+<!-- second panel
 
 
 
@@ -375,12 +364,12 @@ $d->weekly_report();
                             </td>
                         </tr>
                         </tbody>
-                    </table>
+                    </table>-->
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->
     </div><!-- /.col -->
-
+<!--
     <div class="col-sm-7">
         <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
@@ -398,7 +387,7 @@ $d->weekly_report();
 
             <div class="widget-body">
                 <div class="widget-main padding-4">
-                    <div id="sales-charts"></div>
+                    <div id="sales-charts"></div>-->
                 </div><!-- /.widget-main -->
             </div><!-- /.widget-body -->
         </div><!-- /.widget-box -->

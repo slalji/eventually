@@ -7,29 +7,44 @@
   */
  class Users {
         public $id = null;
+        public $username = null;
         public $email = null;
         public $password = null;
         public $confirm = null;
         public $fullname = null;
         public $errmsg_arr = array();
         public $expiry_interval = null;
-     private $salt=null;
+        private $salt=null;
+        private $con=null;
 
         private $table = U_TABLE;
          
 	 
 		 
 	 public function __construct( $data = array() ) {
-        if( isset( $data['email'] ) ) $this->email = stripslashes( strip_tags( $data['email'] ) );
+       
+       /* $this->email =  !is_null( $data['email'] )? stripslashes( strip_tags( $data['email'])) : '';
+        $this->password =  !is_null( $data['password'] )? stripslashes( strip_tags( $data['password'])) : '';
+        $this->confirm =  !is_null( $data['conpassword'] )? stripslashes( strip_tags( $data['conpassword'])) : '';
+        $this->fullname =  !is_null( $data['fullname'] )? stripslashes( strip_tags( $data['fullname'])) : '';
+        $this->expiry_interval =  !is_null( $data['interval'] )? stripslashes( strip_tags( $data['interval'])) : -1;
+        */
+        if( isset( $data['username'] ) ) $this->username = ( ( $data['username'] ) );
+        if( isset( $data['email'] ) ) $this->email = ( ( $data['email'] ) );
         if( isset( $data['password'] ) ) $this->password = ( ( $data['password'] ) );
         if( isset( $data['conpassword'] ) ) $this->confirm = ( ( $data['conpassword'] ) );
         if( isset( $data['fullname'] ) ) $this->fullname = ( ( $data['fullname'] ) );
         if( isset( $data['interval'] ) ) $this->expiry_interval = (intval( $data['interval'] ));
+        $this->con = new PDO( DB_DSN, DB_USER, DB_PASS ); 
+        $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+			
+			
+           
 	 }
 	 
 	 public function storeFormValues( $params ) {
 		//store the parameters 
-             
+
 		$this->__construct( $params ); 
 	 }
 
@@ -38,26 +53,24 @@
               
 		 try{
                      
-			$con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD ); 
-			$con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-			$sql = "SELECT * FROM $this->table WHERE email = :email  LIMIT 1";
-                      
-			 
-			$stmt = $con->prepare( $sql );
-			$stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
+			$sql = "SELECT * FROM $this->table WHERE username = :username  LIMIT 1"; //send all data if valid
+            $stmt = $this->con->prepare( $sql );
+			$stmt->bindValue( "username", $this->username, PDO::PARAM_STR );
 
 
-			$stmt->execute();
+            $stmt->execute();
+            if ($stmt->rowCount() == 0)
+                return false; //"bad username";
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
-             if(password_verify($this->password,$data['password']))
-                return ($data);
+             if(!password_verify($this->password,$data['password']))
+                return false; //"bad password ".$data['password'];
              else
-                 return false;//"Password Error, try again".$this->password;
+                 return $data;//"Password Error, try again".$this->password;
 
 		 }catch (PDOException $e) {
-			  echo $e->getMessage()." userLogin";
+			  echo( $e->getMessage()." userLogin".$this->username);
 			                 
-            return "Login error something went wrong".$e->getMessage().$stmt->queryString;
+            //return "Login error something went wrong".$e->getMessage().$stmt->queryString;
 		 }
 	 }
      
@@ -65,23 +78,26 @@
 
         return $this->password;
      }
+     public function getEmail() {
+
+        return $this->email;
+     }
      public function getExpiryDate($token)
      {
          if ($token) {
              try {
-                 $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                 $sql = "SELECT expiry_date FROM $this->table WHERE token = :token LIMIT 1";
+                 
+                 $sql = "SELECT expiry_date FROM $this->table WHERE token = :token && expiry_interval > 0 LIMIT 1";
 
 
-                 $stmt = $con->prepare($sql);
+                 $stmt = $this->con->prepare($sql);
                  $stmt->bindValue("token", $token, PDO::PARAM_STR);
                  $stmt->execute();
                  $rows = $stmt->fetch(PDO::FETCH_ASSOC);
                  return $rows['expiry_date'];
 
              } catch (PDOException $e) {
-                 echo $e->getMessage() . " validate email";
+                 echo $e->getMessage() . " getExpiryDate";
                  return false;
              }
 
@@ -92,12 +108,11 @@
      {
          if ($email) {
              try {
-                 $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                 
                  $sql = "SELECT firsttime FROM $this->table WHERE email = :email LIMIT 1";
 
 
-                 $stmt = $con->prepare($sql);
+                 $stmt = $this->con->prepare($sql);
                  $stmt->bindValue("email", $email, PDO::PARAM_STR);
                  $stmt->execute();
                  $rows = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -116,12 +131,11 @@
      {
          if ($newname) {
              try {
-                 $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                 
                  $sql = "Update $this->table set fullname=:fullname WHERE email =:email LIMIT 1";
 
 
-                 $stmt = $con->prepare($sql);
+                 $stmt = $this->con->prepare($sql);
                  $stmt->bindValue( "email", $email, PDO::PARAM_STR );
                  $stmt->bindValue( "fullname", $newname, PDO::PARAM_STR );
                  $stmt->execute();
@@ -141,27 +155,23 @@
      {
          if ($token) {
              try {
-                 $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                  $query = "select currentlogin from users where token =:token";
-                 $stmt2 = $con->prepare($query);
+                 $stmt2 = $this->con->prepare($query);
                  $stmt2->bindValue("token", $token, PDO::PARAM_STR);
                  $stmt2->execute();
-                 $r = $stmt2->fetch(PDO::FETCH_ASSOC);
+                 $row = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-                 $currentlogin = $r['currentlogin'];
-
-                    $sql = "Update ".  $this->table." set lastlogin='".$currentlogin."',currentlogin=now() WHERE token = :token LIMIT 1";
-
-
-                 $stmt = $con->prepare($sql);
+                 $currentlogin = $row['currentlogin'];
+                $sql = "Update ".  $this->table." set lastlogin='".$currentlogin."',currentlogin=now() WHERE token = :token ";
+                
+                $stmt = $this->con->prepare($sql);
                  $stmt->bindValue("token", $token, PDO::PARAM_STR);
                  $stmt->execute();
                  $rows = $stmt->fetch(PDO::FETCH_ASSOC);
                  return $rows['currentlogin'];
 
              } catch (PDOException $e) {
-                 echo $e->getMessage() .$stmt->queryString;
+                 echo $e->getMessage() .'updateCurrentLogin '.$currentlogin.' '.$stmt->queryString;
                  return false;
              }
 
@@ -172,13 +182,12 @@
      {
 
              try {
-                 $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                 $sql = "SELECT past_hash FROM $this->table WHERE email = :email LIMIT 1";
+                 
+                 $sql = "SELECT past_hash FROM $this->table WHERE username = :username LIMIT 1";
 
 
-                 $stmt = $con->prepare($sql);
-                 $stmt->bindValue("email", $this->email, PDO::PARAM_STR);
+                 $stmt = $this->con->prepare($sql);
+                 $stmt->bindValue("username", $this->username, PDO::PARAM_STR);
                  $stmt->execute();
                  $rows = $stmt->fetch(PDO::FETCH_ASSOC);
                  return $rows['past_hash'];
@@ -191,23 +200,49 @@
 
          return false;
      }
-     public function checkemail()
+    public function checkemail()
     {
 
      try {
-         $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         
          $sql = "SELECT email FROM $this->table WHERE email = :email LIMIT 1";
 
 
-         $stmt = $con->prepare($sql);
+         $stmt = $this->con->prepare($sql);
          $stmt->bindValue("email", $this->email, PDO::PARAM_STR);
          $stmt->execute();
 
 
          $num_rows = $stmt->rowCount();
          if ($num_rows > 0)
-             return "Username," . $this->email . ", already exists";
+             return "Email," . $this->email . ", already exists";
+        else 
+            return false;//$this->email;
+
+
+     } catch (PDOException $e) {
+         echo $e->getMessage() . " validate email";
+         return false;
+     }
+    }
+    public function checkusername()
+    {
+
+     try {
+         
+         $sql = "SELECT username FROM $this->table WHERE username = :username LIMIT 1";
+
+
+         $stmt = $this->con->prepare($sql);
+         $stmt->bindValue("username", $this->username, PDO::PARAM_STR);
+         $stmt->execute();
+
+
+         $num_rows = $stmt->rowCount();
+         if ($num_rows > 0)
+             return "Username," . $this->username . ", already exists";
+        else 
+            return false;//$this->email;
 
 
      } catch (PDOException $e) {
@@ -245,47 +280,44 @@
                 if( $pwd != $this->confirm ) {
                 //echo "Password and Confirm password not match";
                        $this->errmsg_arr[] = "Password and Confirm password not match " ;
-                }
-
-
-
-            return   $this->errmsg_arr;
+                }               
+                      
+                return $this->errmsg_arr;            
              
                     
              }catch (PDOException $e) {
 			  echo $e->getMessage()." validate password";
                     return false;
-		 }      
-            
+		 }    
               
              
-         }
+     }
 
 
 	 public function register() {
            
-/*
+            /*
             * Generate auto password, make user change it on first login
             * (numChar,howmany,options[lower,upper,num,symbols])
             */
           $my_password = ''.implode($this->randomPassword(8,1,"lower_case,upper_case,numbers,special_symbols"));
-         // print($my_password);
+          
 
         try{
-			$con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD ); 
-			$con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-			$sql = "INSERT INTO $this->table(email,  password, temppass, fullname, joined, currentlogin, lastlogin, firsttime, expiry_interval, expiry_date) VALUES(:email,  :password, :temppass, :fullname, now(), now(), now(), :firsttime, :expiry_interval, now() + INTERVAL ".$this->expiry_interval." DAY)";
+			$this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+			$sql = "INSERT INTO $this->table(username, email,  password, temppass, fullname, joined, currentlogin, lastlogin, firsttime/*, expiry_interval, expiry_date*/) VALUES(:username, :email,  :password, :temppass, :fullname, now(), now(), now(), :firsttime/*, :expiry_interval, now() + INTERVAL ".$this->expiry_interval." DAY*/)";
 
             $password_hash = password_hash($my_password, PASSWORD_BCRYPT);
 
-			$stmt = $con->prepare( $sql );
-			$stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
+			$stmt = $this->con->prepare( $sql );
+            $stmt->bindValue( "username", $this->username, PDO::PARAM_STR );
+            $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
 
 			$stmt->bindValue( "password", $password_hash, PDO::PARAM_STR );
             $stmt->bindValue( "temppass", $my_password, PDO::PARAM_STR );
             $stmt->bindValue( "fullname", $this->fullname, PDO::PARAM_STR );
-            $stmt->bindValue( "firsttime", 'true', PDO::PARAM_STR );
-            $stmt->bindValue( "expiry_interval", $this->expiry_interval, PDO::PARAM_INT );
+            $stmt->bindValue( "firsttime", 'true');
+            //$stmt->bindValue( "expiry_interval", $this->expiry_interval, PDO::PARAM_INT );
 
             $stmt->execute();
              //return password for Administrator to see and save and email
@@ -307,27 +339,30 @@
          $confirm=null;
          $new=null;
          $user=null;
-         if( isset( $data['email'] ) ) $this->email = stripslashes( strip_tags( $data['email'] ) );
+         if( isset( $data['username'] ) ) $this->username = stripslashes( strip_tags( $data['username'] ) );
          if( isset( $data['temppass'] ) ) $temp =  $data['temppass'] ;
          if( isset( $data['newpass'] ) ) $this->password = $data['newpass'];
          if( isset( $data['confirmpass'] ) ) $this->confirm = $data['confirmpass'] ;
          try{
-             $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-             $con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-             $sql = "SELECT email, password, count('email') max FROM $this->table WHERE email = :email LIMIT 1";
+             $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+             $sql = "SELECT username, password FROM $this->table WHERE username = :username LIMIT 1";
 
 
-             $stmt = $con->prepare( $sql );
-             $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
+             $stmt = $this->con->prepare( $sql );
+             $stmt->bindValue( "username", $this->username, PDO::PARAM_STR );
              $stmt->execute();
 
              $rows = $stmt->fetch(PDO::FETCH_ASSOC);
-             if ($rows['max'] < 0 ) {
-                 $this->errmsg_arr[] = "Username," . $this->email . ",incorrect email address";
+             if ($rows['username'] < 0 ) {
+                 $this->errmsg_arr[] = "Username," . $this->username . ",incorrect username address";
                  return $this->errmsg_arr;
              }
+             else if ($rows['username'] > 1 ) {
+                $this->errmsg_arr[] = "Username," . $this->username . ",incorrect username address";
+                return $this->errmsg_arr;
+            }
              else if (!password_verify($temp, $rows['password'])) {
-                $this->errmsg_arr[] = "For Username," . $this->email . " incorrect password ";
+                $this->errmsg_arr[] = "For Username," . $this->username . " incorrect password ";
                  return $this->errmsg_arr;
             }
             return $this->validate();
@@ -352,21 +387,18 @@
              $hash = password_hash($this->password, PASSWORD_BCRYPT);
 
 
-             $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-             $con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-             $sql = "Update $this->table set password = :password, firsttime=:firsttime, temppass=:temppass, past_hash=:past_hash where email = :email;";
-             $stmt = $con->prepare( $sql );
-             $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
-
+             $sql = "Update $this->table set password = :password, firsttime=:firsttime, temppass=:temppass, past_hash=:past_hash where username = :username;";
+             $stmt = $this->con->prepare( $sql );
+             $stmt->bindValue( "username", $this->username, PDO::PARAM_STR );
              $stmt->bindValue( "password", $hash, PDO::PARAM_STR );
              $stmt->bindValue( "firsttime", 'false', PDO::PARAM_STR );
              $stmt->bindValue( "temppass", '', PDO::PARAM_STR );
              $stmt->bindValue( "past_hash", $this->pastHash(), PDO::PARAM_STR );
 
              if ($stmt->execute())
-                 return "db updated";
+                 return true;//"db updated";
              else
-                 return"db error check sql".$stmt->queryString;
+                 return false;//"db error check sql".$stmt->queryString;
 
 
 
@@ -379,42 +411,14 @@
          return false;
 
  }
-     public   function forgottenPassword(){
-         try{
-             $hash = password_hash($this->password, PASSWORD_BCRYPT);
-
-             $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-             $con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-             $sql = "Update $this->table set password = :password, past_hash=:past_hash where email = :email;";
-             $stmt = $con->prepare( $sql );
-             $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
-
-             $stmt->bindValue( "password", $hash, PDO::PARAM_STR );
-             $stmt->bindValue( "past_hash", $this->pastHash(), PDO::PARAM_STR );
-
-             if ($stmt->execute())
-                 return "db updated";
-             else
-                 return"db error check sql".$stmt->queryString;
-
-
-
-         }catch (PDOException $e) {
-             
-             return $e->getMessage().' Err:addNewPassword(); '.$e->getCode();
-
-         }
-         return false;
-
-     }
+ 
+    
      public   function expiredPassword(){
          try {
              $hash = password_hash($this->password, PASSWORD_BCRYPT);
 
-             $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
              $query = "select expiry_interval from $this->table where email=:email";
-             $stmt2 = $con->prepare($query);
+             $stmt2 = $this->con->prepare($query);
              $stmt2->bindValue("email", $this->email, PDO::PARAM_STR);
              $stmt2->execute();
              $rows = $stmt2->fetch(PDO::FETCH_ASSOC);
@@ -422,7 +426,7 @@
 
              $sql = "Update $this->table set password = :password, past_hash=:past_hash, expiry_date=  now() + INTERVAL " . $expiry_interval . "  DAY where email = :email;";
 
-             $stmt = $con->prepare($sql);
+             $stmt = $this->con->prepare($sql);
              $stmt->bindValue("email", $this->email, PDO::PARAM_STR);
 
              $stmt->bindValue("password", $hash, PDO::PARAM_STR);
@@ -449,11 +453,9 @@
      public   function updateToken($token){
          try{
 
-             $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-             $con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-             $sql = "Update $this->table set token = :token where email = :email;";
-             $stmt = $con->prepare( $sql );
-             $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
+             $sql = "Update $this->table set token = :token where username = :username;";
+             $stmt = $this->con->prepare( $sql );
+             $stmt->bindValue( "username", $this->username, PDO::PARAM_STR );
              $stmt->bindValue( "token", $token, PDO::PARAM_STR );
 
              if ($stmt->execute()){
@@ -527,11 +529,9 @@
          $arr = null;
          try{
 
-             $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-             $con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-             $sql = "SELECT past_hash, password FROM $this->table WHERE email = :email LIMIT 1";
-             $stmt = $con->prepare( $sql );
-             $stmt->bindValue( "email", $this->email, PDO::PARAM_STR );
+             $sql = "SELECT past_hash, password FROM $this->table WHERE username = :username LIMIT 1";
+             $stmt = $this->con->prepare( $sql );
+             $stmt->bindValue( "username", $this->username, PDO::PARAM_STR );
              $stmt->execute();
              $row = $stmt->fetch(PDO::FETCH_ASSOC);
              $arr=$row['password'];
@@ -560,17 +560,18 @@
 
 
      }
+     public function getErrorMsg(){
+         return $this->errmsg_arr;
+     }
 
      public function getUserInfo($token)
      {
          if ($token) {
              try {
-                 $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                 $sql = "SELECT fullname, email,joined,lastlogin,firsttime,expiry_interval,expiry_date FROM $this->table WHERE token = :token LIMIT 1";
+                 $sql = "SELECT username, fullname, email,joined,lastlogin,firsttime,expiry_interval,expiry_date FROM $this->table WHERE token = :token LIMIT 1";
 
 
-                 $stmt = $con->prepare($sql);
+                 $stmt = $this->con->prepare($sql);
                  $stmt->bindValue("token", $token, PDO::PARAM_STR);
                  $stmt->execute();
                  $rows = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -597,12 +598,10 @@
      public function verifyPassword($password)
      {
          try {
-             $con = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
-             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-             $sql = "SELECT password FROM $this->table WHERE email = :email LIMIT 1";
-             $stmt = $con->prepare($sql);
-             $stmt->bindValue("email", $this->email, PDO::PARAM_STR);
+             
+             $sql = "SELECT password FROM $this->table WHERE username = :username LIMIT 1";
+             $stmt = $this->con->prepare($sql);
+             $stmt->bindValue("username", $this->username, PDO::PARAM_STR);
              $stmt->execute();
              $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -616,6 +615,19 @@
          } catch (PDOException $e) {
              return $e->errorInfo();
          }
+     }
+     public function sendemail($temppass, $email){
+         // the message
+            $msg = "This is your temporary password. \r\n".$temppass." \r\nLogin to  Admin with this password and change it to a new password immediately";
+
+            // use wordwrap() if lines are longer than 70 characters
+            $msg = wordwrap($msg,70);
+            $headers = 'From: info@selcom.net' . "\r\n" .
+    'Reply-To: info@selcom.net' . "\r\n";
+
+            // send email
+            mail($email,"Temporary Pass",$msg);
+
      }
 
 

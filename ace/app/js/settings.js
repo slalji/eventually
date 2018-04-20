@@ -44,7 +44,7 @@ jQuery(function($) {
         //console.log('rowId '+rowId);
         $.ajax({
             url: 'ajax/getServiceItem.php',
-            type: 'GET',
+            type: 'POST',
             dataType: 'json',
             data: {section:section,id:rowId},
             success: function(obj) {

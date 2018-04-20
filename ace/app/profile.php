@@ -60,13 +60,14 @@ $_SESSION['fullname']=$fullname;
 					</div>
 				</div>
 
-				<div class="profile-info-row">
+				<!--<div class="profile-info-row">
 					<div class="profile-info-name"> <i class="fa fa-calendar orange2"></i> Expiry </div>
 
 					<div class="profile-info-value">
 						<span class="editable" id="signup"><span id="expiry"><?php echo $interval?> </span>Days, Date: <span class="badge badge-warning" id="expiry_date"><?php echo $expiry_date;?></span></span>
 					</div>
 				</div>
+				-->
 				<div class="profile-info-row">
 					<div class="profile-info-name"><i class="fa fa-calendar "></i> Joined </div>
 
@@ -88,8 +89,8 @@ $_SESSION['fullname']=$fullname;
 					<div class="widget-body">
 						<div class="widget-main">
 
-							<span class="expire"> Your password has expired! Please change it today</span>
-							<span class="success"></span><span class="error"></span>
+							<!--<span class="expire"> Your password has expired! Please change it today</span>
+							--><span class="success"></span><span class="error"></span>
 						</div>
 					</div>
 				</div>
@@ -153,7 +154,7 @@ $_SESSION['fullname']=$fullname;
 
 		$(document).ready(function() {
 			//$('#messages').hide();
-			var expiry = $('#expiry_date').html();
+			/*var expiry = $('#expiry_date').html();
 			var d = new Date();
 			var curr_date = d.getDate();
 			var curr_month = d.getMonth() + 1;
@@ -163,9 +164,10 @@ $_SESSION['fullname']=$fullname;
 			var today = curr_year + '-' + new_month + '-' + curr_date;
 
 			if (expiry == today)
-				 $('.expire').show();
-			else
 				 $('.expire').hide();
+			else
+			*/
+			$('.expire').hide();
 			$('input').focus(function () {
 				//$('.success').hide();
 				//$('.errors').hide();

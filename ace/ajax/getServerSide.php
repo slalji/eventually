@@ -1,13 +1,5 @@
 <?php
-/* Database connection start */
-$servername = "localhost";
-$username = "root";
-$password = "roots";
-$dbname = "selcom_bridge";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
-
-/* Database connection end */
+require_once "../../config.php";
 
 
 // storing  request (ie, get/post) global array to a variable  
@@ -87,20 +79,20 @@ if ($section == 'transactions'){
 }
 if ($section == 'savingsgroup'){
 	$where = ' 1 ';
-	$sql="SELECT ". $_REQUEST['cols'] ."  from savings_group ";
+	$sql="SELECT ". $_REQUEST['cols'] ."  from savings_group t ";
 
 }
 if ($section == 'servicemsg' ){
 	$where = ' 1 ';
-	$sql="SELECT ". $_REQUEST['cols'] ."  from service_message ";
+	$sql="SELECT ". $_REQUEST['cols'] ."  from service_message t";
 }
 if ($section == 'servicedesc' ){
 	$where = ' 1 ';
-	$sql="SELECT ". $_REQUEST['cols'] ." from service_desc ";
+	$sql="SELECT ". $_REQUEST['cols'] ." from service_desc t";
 }
 if ($section == 'settings' ){
-	$where = ' 1 ';
-	$sql="SELECT  ". $_REQUEST['cols'] ."  from settings ";
+	$where = ' 1 '; 
+	$sql="SELECT  ". $_REQUEST['cols'] ."  from settings t";
 }
 
 
@@ -120,9 +112,9 @@ if( !empty($requestData['columns'][0]['search']['value']) ){
 }
 
 if( !empty($requestData['search']['value']) ) {   // if there is a search parameter, $requestData['search']['value'] contains search parameter
-	$where.=" AND (".$q_cols[0]." LIKE '".$requestData['search']['value']."%' ";
+	$where.=" AND (".$q_cols[0]." LIKE '%".$requestData['search']['value']."%' ";
 	foreach($q_cols as $col)
-		$where .= "OR ". $col . " LIKE '" . $requestData['search']['value']."%' ";
+		$where .= "OR ". $col . " LIKE '%" . $requestData['search']['value']."%' ";
  
 	$where.="  )";
 }

@@ -1,7 +1,8 @@
 $( document ).ready(function() {
-
+    
 
 });
+
 jQuery(function($) {
    if (section != 'servicemsg' && section != 'servicedesc' && section != 'settings'){
     var myTable =
@@ -78,11 +79,7 @@ jQuery(function($) {
             {  },
             {"mRender": function ( data, type, row ) {
                 return '<a href="#" data-toggle="modal" data-target="#myModal" data-row-id='+row[0]+'><i class="fa fa-pencil pink"></i></a>';}
-            }
-
-
-
-        ],
+            }          ],
         "dom": '<"toolbar">lfrtip' //NO DATE RANGE
     } );
    }
@@ -101,19 +98,33 @@ jQuery(function($) {
             {
                 "extend": "colvis",
                 "text": "<i class='fa fa-eye-slash bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
-                "className": "btn btn-white btn-primary btn-bold",
+                "className": "btn btn-white   btn-bold",
                 //columns: ':not(:first):not(:last)'
                 columns: ':not(:first)'
             },
             {
                 "extend": "copy",
                 "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
-                "className": "btn btn-white btn-primary btn-bold"
+                "className": "btn btn-white   btn-bold"
             },
             {
-                "extend": "csv",
+                "extend": "copy",
+                "text": "<i class='fa fa-font bigger-110 red'></i> <span class='hidden'>Toggle font size</span>",
+                "className": "btn btn-white btn-bold",
+                "action": function (e, dt, node, config)
+                    {
+                       
+                        if( $("td").css('font-size') == '14px') {
+                            $('td').css('font-size','11px');  
+                        }
+                        else
+                            $('td').css('font-size','14px');
+                    }
+            },
+            {
+                "extend": "",
                 "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden' id=export>Export to CSV </span>",
-                "className": "btn btn-white btn-primary btn-bold",
+                "className": "btn btn-white   btn-bold",
                 "action": function (e, dt, node, config)
                 {
                    var searchthis = $('#date-text').html();

@@ -10,44 +10,7 @@ $dbid='';
 if (isset($_SESSION['fullname']))
 	$fullname = $_SESSION['fullname'];
 
-/*if(isset($_POST['submit']) && $_POST['submit'] == 'Update') {
 
-	$temp = null;
-	$confirm = null;
-	$new = null;
-	$user = null;
-	$email = '';
-	$errmsg_arr = array();
-	$messages= null;
-
-	if (isset($_REQUEST['email'])) $email = stripslashes(strip_tags($_REQUEST['email']));
-	if (isset($_REQUEST['temppass'])) $temp = $_REQUEST['temppass'];
-	if (isset($_REQUEST['password'])) $password = $_REQUEST['password'];
-	if (isset($_REQUEST['conpassword'])) $confirm = $_REQUEST['conpassword'];
-
-
-	$usr->storeFormValues($_REQUEST);
-	$check = $usr->checkemail();
-	$err = json_encode($check);
-	if ($usr->getFirsttime($email) == 'true')
-		$messages[]='You are a first time user, you will require temporary password. If you have forgotten please contact Administrator';
-
-	$error = ($usr->checkNewPassword($_REQUEST));
-	//echo '<div class="message failure" style=opacity:1> ';
-	if ($err == 'null')
-		 $messages[] = 'Invalid Email Address ';
-
-
-	if(!$messages){
-
-		echo "Successfully updated";
-		//header('location:index.php');
-
-	}
-	echo json_encode($messages);
-
-
-}*/
 ?>
 
 <!DOCTYPE HTML>
@@ -71,11 +34,11 @@ if (isset($_SESSION['fullname']))
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 </head>
-<body>
+<body style="background:#a71616">
 
 <!-- Header -->
 <header id="header">
-	<h1><i class="fa fa-tree"></i>Boresha Maisha Admin</h1>
+	<h1><i class="fa fa-tree"></i>Boresha Maisha</h1>
 	<span class="errors">Expired Password !</span>  <br><span style="color:#1cb495"><?php echo $fullname?> </span> Your password has expired. Do not change it to any of the
 	<b>last 3 passwords</b> used. Please choose a new strong password.
 
